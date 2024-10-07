@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="../client/css/style.css">
 </head>
 <body>
+    <script>
+        document.getElementById('add-doctor-btn').addEventListener('click', function() {
+            window.location.href = 'add_Doctor.html';
+        });
+    </script>    
     <header>
         <div class="header-content">
             <nav class="main-nav">
@@ -47,7 +52,9 @@
                     <h1>List of doctors</h1>
                     <p>345 available doctors</p>
                 </div>
-                <button class="add-doctor"><img src="../client/storage/img/add_User.png" style="margin-right: 0.5rem;">Add new doctor</button>
+                <a href="../client/views/add_Doctor.html">
+                    <button class="add-doctor"><img src="../client/storage/img/add_User.png" style="margin-right: 0.5rem;">Add new doctor</button>
+                </a>
             </div>
             <table>
                 <thead>
