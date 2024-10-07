@@ -1,0 +1,12 @@
+{
+  "name": "gestion_hospitalaria",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "node --env-file .env --watch app.js"
+  },
+  "keywords": [],
+  "author": "José Guillermo Paúl Díaz",
+  "license": "ISC",
+  "description": ""
+}
