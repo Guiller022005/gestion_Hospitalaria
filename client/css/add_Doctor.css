@@ -1,0 +1,242 @@
+/* General styles */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #285430;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    padding-left: 10vw;
+}
+
+.logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 2rem;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.main-nav ul li a.active {
+    background-color: white;
+    color: #2E7D32;
+    border-radius: 10px 10px 0 0;
+    padding: 1.5rem 1.5rem 1.75rem;
+    position: relative;
+    top: 12px;
+    font-weight: 600;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.userRol {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.user-avatar {
+    background-color: #3A6B4D;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.sub-nav {
+    background-color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sub-nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding-left: 10vw;
+}
+
+.sub-nav ul li a {
+    color: #B5B5C3;
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.sub-nav ul li a.active {
+    color: #2E7D32;
+    font-weight: 600;
+}
+
+/* Estilo del formulario */
+.form-section {
+    padding: 20px;
+    margin-top: 2rem;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.form-steps {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.form-steps li {
+    font-size: 16px;
+    font-weight: bold;
+    color: #B5B5C3;
+    position: relative;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.form-steps li.active-step {
+    color: #2E7D32;
+}
+
+.form-steps li::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 2px;
+    background-color: #B5B5C3;
+    width: 100%;
+    z-index: -1;
+}
+
+.form-steps li:first-child::before {
+    display: none;
+}
+
+.form-steps li.active-step::before {
+    background-color: #2E7D32;
+}
+
+.form-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #285430;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px; /* El espacio entre los elementos */
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex-grow: 1; /* Asegura que todos los elementos en la fila crezcan uniformemente */
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%; /* Ambos ocuparán todo el espacio disponible en su contenedor */
+    background: white;
+    padding: 10px;
+    color: #B5B5C3;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Asegura que padding y borde se incluyan en el tamaño total */
+}
+
+/* Aseguramos que el padding y el tamaño sean consistentes */
+.form-group input {
+    height: 40px; /* Ajusta la altura para que coincida con select */
+    width: 43vw;
+}
+
+.form-group select {
+    height: 40px; /* Asegura que select tenga la misma altura que input */
+    width: 43vw;
+}
+
+
+.form-group input::placeholder {
+    color: #B5B5C3;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.next-step-btn {
+    background-color: #2E7D32;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.next-step-btn:hover {
+    background-color: #285430;
+}

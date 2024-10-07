@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/add_Doctor.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <nav class="main-nav">
+                <img src="../storage/img/plus.png" alt="Logo" class="logo">
+                <ul>
+                    <li><a href="#" class="active">Users</a></li>
+                    <li><a href="#">Patients</a></li>
+                    <li><a href="#">Hospitals</a></li>
+                    <li><a href="#">Notice</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+            </nav>
+            <div class="user-section">
+                <img src="../storage/img/window.png" alt="Grid view" class="icon">
+                <img src="../storage/img/stadics.png" alt="Chart view" class="icon">
+                <img src="../storage/img/message.png" alt="Messages" class="icon">
+                <div class="user-info">
+                    <div class="userRol">
+                        <span>Marvin McKinney </span>
+                        <small>Admin</small>
+                    </div>
+                    <div class="user-avatar">M</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="sub-nav">
+        <ul>
+            <li><a href="#" class="active">Doctor</a></li>
+            <li><a href="#">Administration</a></li>
+            <li><a href="#">Accounts</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="form-section">
+            <div class="form-container">
+                <ul class="form-steps">
+                    <li class="active-step">1 Basic Information</li>
+                    <li>2 Enter Details</li>
+                    <li>3 Select Services</li>
+                    <li>4 Review and Submit</li>
+                </ul>
+                <div class="form-content">
+                    <h2>Basic Information</h2>
+                    <form action="#" method="POST" class="basic-info-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-type">User type</label>
+                                <select id="user-type" name="user-type">
+                                    <option value="">Select user type</option>
+                                    <!-- Agregar opciones aquí -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender">
+                                    <option value="">Select gender</option>
+                                    <!-- Agregar opciones aquí -->
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First name</label>
+                                <input type="text" id="first-name" name="first-name" placeholder="Your first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="designation">Designation</label>
+                                <input type="text" id="designation" name="designation" placeholder="Your designation">
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="last-name">Last name</label>
+                                <input type="text" id="last-name" name="last-name" placeholder="Your last name">
+                            </div>
+                            <div class="form-group">
+                                <label for="dob">Date of birth</label>
+                                <input type="date" id="dob" name="dob">
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" id="email" name="email" placeholder="Your email address">
+                            </div>
+                        </div>
+    
+                        <div class="form-actions">
+                            <button type="submit" class="next-step-btn">Next Step</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>    
+</body>
+</html>
