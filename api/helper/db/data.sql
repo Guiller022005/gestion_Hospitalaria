@@ -1,14 +1,14 @@
-INSERT INTO paciente (cedula, nombre, apellido, genero, fecha_nacimiento, edad) VALUES
-(1001, 'Juan', 'Pérez', 'Masculino', '1980-05-14', 44),
-(1002, 'Ana', 'García', 'Femenino', '1992-09-30', 32),
-(1003, 'Luis', 'Rodríguez', 'Masculino', '1987-11-22', 37),
-(1004, 'Marta', 'López', 'Femenino', '1975-03-10', 49),
-(1005, 'Carlos', 'Martínez', 'Masculino', '1995-12-15', 28),
-(1006, 'Lucía', 'Gómez', 'Femenino', '1985-08-08', 39),
-(1007, 'Pedro', 'Díaz', 'Masculino', '1990-06-17', 34),
-(1008, 'Clara', 'Torres', 'Femenino', '1982-07-23', 42),
-(1009, 'David', 'Ramírez', 'Masculino', '1988-02-19', 36),
-(1010, 'Sofía', 'Fernández', 'Femenino', '1993-04-05', 31);
+INSERT INTO paciente (cedula, nombre, apellido, genero, fecha_nacimiento, edad, estado) VALUES
+(1001,'Juan','Pérez','Masculino','1980-05-14',44,'Activo'),
+(1002,'Ana','García','Femenino','1992-09-30',32,'Inactivo'),
+(1003,'Luis','Rodríguez','Masculino','1987-11-22',37,'Activo'),
+(1004,'Marta','López','Femenino','1975-03-10',49,'Inactivo'),
+(1005,'Carlos','Martínez','Masculino','1995-12-15',28,'Activo'),
+(1006,'Lucía','Gómez','Femenino','1985-08-08',39,'Inactivo'),
+(1007,'Pedro','Díaz','Masculino','1990-06-17',34,'Activo'),
+(1008,'Clara','Torres','Femenino','1982-07-23',42,'Inactivo'),
+(1009,'David','Ramírez','Masculino','1988-02-19',36,'Activo'),
+(1010,'Sofía','Fernández','Femenino','1993-04-05',31,'Inactivo');
 
 
 INSERT INTO comunicacion_paciente (paciente_fk, tipo, contacto) VALUES
@@ -101,19 +101,17 @@ INSERT INTO especialidad (nombre) VALUES
 ('Psiquiatría'),
 ('Gastroenterología');
 
-
-INSERT INTO doctor (nombre_completo, genero, especialidad_fk, fecha_nacimiento) VALUES
-('Dr. José Martínez', 'Masculino', 1, '1975-04-12'),
-('Dra. Laura Gutiérrez', 'Femenino', 2, '1980-09-25'),
-('Dr. Carlos Pérez', 'Masculino', 3, '1982-06-11'),
-('Dra. Ana Torres', 'Femenino', 4, '1977-03-30'),
-('Dr. Pablo Ruiz', 'Masculino', 5, '1979-11-08'),
-('Dra. Carolina Salazar', 'Femenino', 6, '1985-12-02'),
-('Dr. Miguel Castro', 'Masculino', 7, '1983-05-18'),
-('Dra. Patricia Soto', 'Femenino', 8, '1981-01-14'),
-('Dr. Luis Mendoza', 'Masculino', 9, '1976-08-22'),
-('Dra. Sofía Morales', 'Femenino', 10, '1984-10-05');
-
+INSERT INTO doctor (nombre_completo, genero, especialidad_fk, fecha_nacimiento, estado) VALUES
+('Dr. José Martínez','Masculino',1,'1975-04-12','Activo'),
+('Dra. Laura Gutiérrez','Femenino',2,'1980-09-25','Suspendido'),
+('Dr. Carlos Pérez','Masculino',3,'1982-06-11','Activo'),
+('Dra. Ana Torres','Femenino',4,'1977-03-30','Suspendido'),
+('Dr. Pablo Ruiz','Masculino',5,'1979-11-08','Incapacitado'),
+('Dra. Carolina Salazar','Femenino',6,'1985-12-02','Activo'),
+('Dr. Miguel Castro','Masculino',7,'1983-05-18','Incapacitado'),
+('Dra. Patricia Soto','Femenino',8,'1981-01-14','Vacaciones'),
+('Dr. Luis Mendoza','Masculino',9,'1976-08-22','Suspendido'),
+('Dra. Sofía Morales','Femenino',10,'1984-10-05','Vacaciones');
 
 INSERT INTO comunicacion_doctor (doctor_fk, tipo, contacto) VALUES
 (1, 'Telefono', '555-5001'),

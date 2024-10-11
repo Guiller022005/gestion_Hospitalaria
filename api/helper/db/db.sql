@@ -8,6 +8,7 @@ CREATE TABLE paciente(
     genero VARCHAR(20) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     edad INT NOT NULL,
+    estado ENUM("Activo", "Inactivo") NOT NULL,
     CONSTRAINT PK_cedula PRIMARY KEY(cedula)
 );
 CREATE INDEX ID_nombre_completo ON paciente (nombre, apellido);
@@ -79,6 +80,7 @@ CREATE TABLE doctor(
     genero VARCHAR(20) NOT NULL,
     especialidad_fk INT NOT NULL,
     fecha_nacimiento DATE NOT NULL,
+    estado ENUM("Activo", "Suspendido", "Vacaciones", "Incapacitado", "Inactivo") NOT NULL,
     CONSTRAINT PK_id PRIMARY KEY(id),
     CONSTRAINT FK_doctor_especialidad FOREIGN KEY (especialidad_fk) REFERENCES especialidad(id)
 );
