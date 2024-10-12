@@ -113,17 +113,37 @@ INSERT INTO doctor (nombre_completo, genero, especialidad_fk, fecha_nacimiento, 
 ('Dr. Luis Mendoza','Masculino',9,'1976-08-22','Suspendido'),
 ('Dra. Sofía Morales','Femenino',10,'1984-10-05','Vacaciones');
 
-INSERT INTO comunicacion_doctor (doctor_fk, tipo, contacto) VALUES
-(1, 'Telefono', '555-5001'),
-(2, 'Celular', '311-7895'),
-(3, 'Correo electronico', 'dr.carlos.perez@mail.com'),
-(4, 'Telefono', '555-6002'),
-(5, 'Celular', '312-6543'),
-(6, 'Correo electronico', 'dr.carolina.salazar@mail.com'),
-(7, 'Telefono', '555-7003'),
-(8, 'Celular', '313-8901'),
-(9, 'Correo electronico', 'dr.luis.mendoza@mail.com'),
-(10, 'Telefono', '555-8004');
+INSERT INTO comunicacion_doctor VALUES 
+(2,'Celular','311-7895'),
+(5,'Celular','312-6543'),
+(6,'Celular','312-8923'),
+(8,'Celular','313-8901'),
+(7,'Celular','313-8906'),
+(4,'Celular','313-8907'),
+(3,'Celular','313-9001'),
+(1,'Celular','314-8921'),
+(9,'Celular','315-9001'),
+(10,'Celular','315-9060'),
+(1,'Telefono','555-5001'),
+(2,'Telefono','555-5005'),
+(4,'Telefono','555-6002'),
+(7,'Telefono','555-7003'),
+(10,'Telefono','555-8004'),
+(3,'Telefono','555-8010'),
+(5,'Telefono','555-8034'),
+(6,'Telefono','555-8063'),
+(8,'Telefono','555-8067'),
+(9,'Telefono','556-8127'),
+(3,'Correo electronico','dr.carlos.perez@mail.com'),
+(1,'Correo electronico','dr.josemartínez@mail.com'),
+(9,'Correo electronico','dr.luis.mendoza@mail.com'),
+(7,'Correo electronico','dr.miguelcastro@mail.com'),
+(5,'Correo electronico','dr.pabloruiz@mail.com'),
+(4,'Correo electronico','dra.anatorres@mail.com'),
+(6,'Correo electronico','dra.carolina.salazar@mail.com'),
+(2,'Correo electronico','dra.lauragutierrez@mail.com'),
+(8,'Correo electronico','dra.patriciasoto@mail.com'),
+(10,'Correo electronico','dra.sofiamorales@mail.com');
 
 
 INSERT INTO personal (hospital_fk, doctor_fk) VALUES
