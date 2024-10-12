@@ -1,12 +1,17 @@
-class Doctor{
+const Conexion = require('../helper/conexion')
+class Doctor extends Conexion{
     constructor(){
-
+        super();
     }
-    async findAllCollection(){
+    async listaDoctores(){
         try {
-            return {status: 200, message: "List of registered products", data: res};
+            let driver = await this.conexion;
+            const [results] = await driver.data.query(
+                'SELECT * FROM doctor'
+            );
+            return {status: 200, message: "list of Doctors", data: results};
         } catch (error) {
-            throw new Error(JSON.stringify({ status: 500, message: "The products were not found", error}))
+            throw new Error(JSON.stringify({ status: 500, message: "Ocurrio un error al obtener todos los doctores", data: error}))
         }
     }
 }
