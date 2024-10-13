@@ -1,6 +1,8 @@
-const mysql = require ('mysql2/promise');
-
+const mysql = require('mysql2/promise');
 class Conexion {
+    constructor(){
+        
+    }
     get conexion(){
         return mysql.createConnection({
             host: 'localhost',
