@@ -1,4 +1,4 @@
-const { join } = require("path");
+const {join} = require("path");
 const express = require("express");
 const doctorRouter = require('./api/router/doctorRouter');
 const pacienteRouter = require('./api/router/pacienteRouter');
@@ -19,6 +19,14 @@ app.use("/paciente", pacienteRouter);
 app.use("/hospital", hospitalRouter);
 app.use("/cuenta", cuentaRouter);
 app.use("/aviso", avisoRouter);
+
+app.get('/hospital', (req, res) => {
+    res.sendFile(join(__dirname, 'client', 'index.html'));
+});
+
+app.get('/Add_Doctor', (req, res) => {
+    res.sendFile(join(__dirname, 'client', 'views', 'add_Doctor.html'));
+});
 
 // Capturamos rutas no encontradas (404)
 app.use((req, res) => {
