@@ -5,7 +5,6 @@ const pacienteRouter = require('./api/router/pacienteRouter');
 const hospitalRouter = require('./api/router/hospitalRouter');
 const cuentaRouter = require('./api/router/cuentaRouter');
 const avisoRouter = require('./api/router/avisoRouter');
-const { config } = require("process");
 
 const app = express();
 
