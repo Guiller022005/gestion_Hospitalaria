@@ -7,13 +7,36 @@ class Doctor extends Conexion{
         try {
             let driver = await this.conexion;
             const [results] = await driver.data.query(
-                'select * from doctor'
+                `SELECT 
+                    d.id AS DoctorID,  -- Aquí mostramos el ID del doctor
+                    d.nombre_completo AS Doctor,
+                    d.genero AS Genero,
+                    d.fecha_nacimiento AS Fecha_Nacimiento,
+                    d.estado AS Estado,
+                    e.nombre AS Especialidad,
+                    GROUP_CONCAT(CASE WHEN cd.tipo = 'Telefono' THEN cd.contacto END) AS Telefono,
+                    GROUP_CONCAT(CASE WHEN cd.tipo = 'Celular' THEN cd.contacto END) AS Celular,
+                    GROUP_CONCAT(CASE WHEN cd.tipo = 'Correo electronico' THEN cd.contacto END) AS Correo_Electronico
+                FROM 
+                    doctor d
+                LEFT JOIN 
+                    comunicacion_doctor cd ON d.id = cd.doctor_fk
+                LEFT JOIN 
+                    especialidad e ON d.especialidad_fk = e.id
+                GROUP BY 
+                    d.id, d.nombre_completo, d.genero, d.fecha_nacimiento, d.estado, e.nombre
+                ORDER BY 
+                    d.id;  -- Ordenar por el ID del doctor`
             );
-            return {status: 200, message: "list of Doctors", data: results};
+            return { status: 200, message: "list of Doctors", data: results };
         } catch (error) {
-            throw new Error(JSON.stringify({ status: 500, message: "Ocurrio un error al obtener todos los doctores", data: error}))
+            throw new Error(JSON.stringify({ 
+                status: 500, 
+                message: "Ocurrió un error al obtener todos los doctores", 
+                data: error 
+            }));
         }
-    }
+    }    
     async listaContactos() {
         try {
             let driver = await this.conexion;

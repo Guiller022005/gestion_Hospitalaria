@@ -35,7 +35,6 @@
         <ul>
             <li><a href="#" class="active">Doctor</a></li>
             <li><a href="#">Poblacion</a></li>
-            <li><a href="#">Accounts</a></li>
         </ul>
     </nav>
     <main>
@@ -43,7 +42,7 @@
             <div class="content-header">
                 <div>
                     <h1>Lista de doctores</h1>
-                    <p>345 available doctors</p>
+                    <p id="doctorsCount">Cargando doctores...</p> <!-- Cambiado para mostrar carga -->
                 </div>
                 <a href="/Add_Doctor">
                     <button class="add-doctor"><img src="./storage/img/add_User.png" style="margin-right: 0.5rem;">Add new doctor</button>
@@ -71,71 +70,57 @@
         document.addEventListener('DOMContentLoaded', function() {
             // URL de la API para doctores
             const apiUrlDoctores = 'http://localhost:3000/doctor/v1/todos';
-            // URL de la API para contactos
-            const apiUrlContactos = 'http://localhost:3000/doctor/v1/contactos';
     
-            // Obtener el elemento del tbody donde se va a colocar la lista de doctores
+            // Obtener el elemento del párrafo donde se mostrará el número de doctores
+            const doctorsCount = document.getElementById('doctorsCount');
             const doctorList = document.getElementById('doctor-list');
     
-            // Función para obtener los contactos de un doctor
-            function obtenerContactos(contactos, doctorId) {
-                const telefono = contactos.find(contacto => contacto.doctor_fk === doctorId && contacto.tipo === 'Telefono');
-                const email = contactos.find(contacto => contacto.doctor_fk === doctorId && contacto.tipo === 'Correo electronico');
-                return {
-                    telefono: telefono ? telefono.contacto : 'N/A',
-                    email: email ? email.contacto : 'N/A'
-                };
-            }
+            // Hacer la petición a la API de doctores
+            fetch(apiUrlDoctores)
+                .then(response => response.json())
+                .then(dataDoctores => {
+                    // Actualizar el número de doctores disponibles
+                    const numberOfDoctors = dataDoctores.data.length; // Contar doctores
+                    doctorsCount.textContent = `${numberOfDoctors} available doctors`; // Actualizar texto
+
+                    // Limpiar el contenido anterior
+                    doctorList.innerHTML = '';
+
+                    // Iterar sobre la lista de doctores de la API
+                    dataDoctores.data.forEach(doctor => {
+                        // Crear una fila para cada doctor
+                        const row = document.createElement('tr');
     
-            // Hacer las peticiones a ambas APIs
-            Promise.all([
-                fetch(apiUrlDoctores).then(response => response.json()),
-                fetch(apiUrlContactos).then(response => response.json())
-            ])
-            .then(([dataDoctores, dataContactos]) => {
-                // Limpiar el contenido anterior
-                doctorList.innerHTML = '';
-    
-                // Obtener la lista de contactos
-                const contactos = dataContactos.data;
-    
-                // Iterar sobre la lista de doctores de la API
-                dataDoctores.data.forEach(doctor => {
-                    // Obtener los contactos del doctor actual
-                    const { telefono, email } = obtenerContactos(contactos, doctor.id);
-    
-                    // Crear una fila para cada doctor
-                    const row = document.createElement('tr');
-    
-                    // Definir la estructura HTML para cada fila
-                    row.innerHTML = `
-                        <td>
-                            <div class="doctor-info">
-                                <img src="./storage/img/user1.png" alt="Doctor avatar" class="doctor-avatar">
-                                <div>
-                                    <div class="doctor-name">${doctor.nombre_completo}</div>
-                                    <div class="doctor-specialty">Especialidad ${doctor.especialidad_fk}</div>
+                        // Definir la estructura HTML para cada fila
+                        row.innerHTML = `
+                            <td>
+                                <div class="doctor-info">
+                                    <img src="./storage/img/user1.png" alt="Doctor avatar" class="doctor-avatar">
+                                    <div>
+                                        <div class="doctor-name">${doctor.Doctor}</div>
+                                        <div class="doctor-specialty">Especialidad ${doctor.Especialidad}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>${doctor.id}</td>
-                        <td>${email}</td>
-                        <td>${telefono}</td>
-                        <td>
-                            <div class="date-added">${new Date(doctor.fecha_nacimiento).toLocaleDateString()}</div>
-                            <div class="time-added">N/A</div>
-                        </td>
-                        <td><span class="status ${doctor.estado.toLowerCase()}">${doctor.estado}</span></td>
-                        <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
-                    `;
+                            </td>
+                            <td>${doctor.DoctorID}</td>
+                            <td>${doctor.Correo_Electronico || 'N/A'}</td>
+                            <td>${doctor.Telefono || 'N/A'}</td>
+                            <td>
+                                <div class="date-added">${new Date(doctor.Fecha_Nacimiento).toLocaleDateString()}</div>
+                                <div class="time-added">N/A</div>
+                            </td>
+                            <td><span class="status ${doctor.Estado}">${doctor.Estado}</span></td>
+                            <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
+                        `;
     
-                    // Añadir la fila a la tabla
-                    doctorList.appendChild(row);
+                        // Añadir la fila a la tabla
+                        doctorList.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching doctor data:', error);
+                    doctorsCount.textContent = 'Error al cargar doctores'; // Mensaje de error
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching doctor or contact data:', error);
-            });
         });
     </script>    
 </body>
