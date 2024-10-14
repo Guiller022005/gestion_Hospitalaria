@@ -7,21 +7,14 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <script>
-        document.getElementById('add-doctor-btn').addEventListener('click', function() {
-            window.location.href = 'add_Doctor.html';
-        });
-    </script>    
     <header>
         <div class="header-content">
             <nav class="main-nav">
                 <img src="./storage/img/plus.png" alt="Logo" class="logo">
                 <ul>
-                    <li><a href="#" class="active">Users</a></li>
-                    <li><a href="#">Patients</a></li>
-                    <li><a href="#">Hospitals</a></li>
-                    <li><a href="#">Notice</a></li>
-                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#" class="active">Especialistas</a></li>
+                    <li><a href="#">Centro</a></li>
+                    <li><a href="#">Facturas</a></li>
                 </ul>
             </nav>
             <div class="user-section">
@@ -41,7 +34,7 @@
     <nav class="sub-nav">
         <ul>
             <li><a href="#" class="active">Doctor</a></li>
-            <li><a href="#">Administration</a></li>
+            <li><a href="#">Poblacion</a></li>
             <li><a href="#">Accounts</a></li>
         </ul>
     </nav>
@@ -49,7 +42,7 @@
         <section class="content">
             <div class="content-header">
                 <div>
-                    <h1>List of doctors</h1>
+                    <h1>Lista de doctores</h1>
                     <p>345 available doctors</p>
                 </div>
                 <a href="/Add_Doctor">
@@ -68,90 +61,82 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="doctor-info">
-                                <img src="./storage/img/user1.png" alt="Doctor avatar" class="doctor-avatar">
-                                <div>
-                                    <div class="doctor-name">Brooklyn Simmons</div>
-                                    <div class="doctor-specialty">Dermatologists</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>87364523</td>
-                        <td>brooklyns@mail.com</td>
-                        <td>(603) 555-0123</td>
-                        <td>
-                            <div class="date-added">21/12/2022</div>
-                            <div class="time-added">10:40 PM</div>
-                        </td>
-                        <td><span class="status approved">Approved</span></td>
-                        <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="doctor-info">
-                                <img src="./storage/img/user2.png" alt="Doctor avatar" class="doctor-avatar">
-                                <div>
-                                    <div class="doctor-name">Kristin Watson</div>
-                                    <div class="doctor-specialty">Infectious disease</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>93874563</td>
-                        <td>kristinw@mail.com</td>
-                        <td>(219) 555-0114</td>
-                        <td>
-                            <div class="date-added">22/12/2022</div>
-                            <div class="time-added">05:20 PM</div>
-                        </td>
-                        <td><span class="status declined">Declined</span></td>
-                        <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="doctor-info">
-                                <img src="./storage/img/user3.png" alt="Doctor avatar" class="doctor-avatar">
-                                <div>
-                                    <div class="doctor-name">Jacob Jones</div>
-                                    <div class="doctor-specialty">Ophthalmologists</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>23847569</td>
-                        <td>jacobj@mail.com</td>
-                        <td>(319) 555-0115</td>
-                        <td>
-                            <div class="date-added">23/12/2022</div>
-                            <div class="time-added">12:40 PM</div>
-                        </td>
-                        <td><span class="status approved">Approved</span></td>
-                        <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="doctor-info">
-                                <img src="./storage/img/user4.png" alt="Doctor avatar" class="doctor-avatar">
-                                <div>
-                                    <div class="doctor-name">Cody Fisher</div>
-                                    <div class="doctor-specialty">Cardiologists</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>39485632</td>
-                        <td>codyf@mail.com</td>
-                        <td>(229) 555-0109</td>
-                        <td>
-                            <div class="date-added">24/12/2022</div>
-                            <div class="time-added">03:00 PM</div>
-                        </td>
-                        <td><span class="status approved">Approved</span></td>
-                        <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
-                    </tr>
+                <tbody id="doctor-list">
+                    <!-- Los doctores serán cargados aquí dinámicamente -->
                 </tbody>
             </table>
         </section>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL de la API para doctores
+            const apiUrlDoctores = 'http://localhost:3000/doctor/v1/todos';
+            // URL de la API para contactos
+            const apiUrlContactos = 'http://localhost:3000/doctor/v1/contactos';
+    
+            // Obtener el elemento del tbody donde se va a colocar la lista de doctores
+            const doctorList = document.getElementById('doctor-list');
+    
+            // Función para obtener los contactos de un doctor
+            function obtenerContactos(contactos, doctorId) {
+                const telefono = contactos.find(contacto => contacto.doctor_fk === doctorId && contacto.tipo === 'Telefono');
+                const email = contactos.find(contacto => contacto.doctor_fk === doctorId && contacto.tipo === 'Correo electronico');
+                return {
+                    telefono: telefono ? telefono.contacto : 'N/A',
+                    email: email ? email.contacto : 'N/A'
+                };
+            }
+    
+            // Hacer las peticiones a ambas APIs
+            Promise.all([
+                fetch(apiUrlDoctores).then(response => response.json()),
+                fetch(apiUrlContactos).then(response => response.json())
+            ])
+            .then(([dataDoctores, dataContactos]) => {
+                // Limpiar el contenido anterior
+                doctorList.innerHTML = '';
+    
+                // Obtener la lista de contactos
+                const contactos = dataContactos.data;
+    
+                // Iterar sobre la lista de doctores de la API
+                dataDoctores.data.forEach(doctor => {
+                    // Obtener los contactos del doctor actual
+                    const { telefono, email } = obtenerContactos(contactos, doctor.id);
+    
+                    // Crear una fila para cada doctor
+                    const row = document.createElement('tr');
+    
+                    // Definir la estructura HTML para cada fila
+                    row.innerHTML = `
+                        <td>
+                            <div class="doctor-info">
+                                <img src="./storage/img/user1.png" alt="Doctor avatar" class="doctor-avatar">
+                                <div>
+                                    <div class="doctor-name">${doctor.nombre_completo}</div>
+                                    <div class="doctor-specialty">Especialidad ${doctor.especialidad_fk}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${doctor.id}</td>
+                        <td>${email}</td>
+                        <td>${telefono}</td>
+                        <td>
+                            <div class="date-added">${new Date(doctor.fecha_nacimiento).toLocaleDateString()}</div>
+                            <div class="time-added">N/A</div>
+                        </td>
+                        <td><span class="status ${doctor.estado.toLowerCase()}">${doctor.estado}</span></td>
+                        <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
+                    `;
+    
+                    // Añadir la fila a la tabla
+                    doctorList.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching doctor or contact data:', error);
+            });
+        });
+    </script>    
 </body>
 </html>
