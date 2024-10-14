@@ -22,7 +22,7 @@ class Cuenta extends Conexion{
                 [id]
             );
             let [cuenta] = results;
-            return {status: 200, message: `informacion de la cuenta ${id}`, data: cuenta};
+            return {status: 200, message: `informacion de la cuenta ${cuenta.paciente_fk}`, data: cuenta};
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al obtener la informacion del cuenta ${id}`, data: error}))
         }
@@ -47,7 +47,10 @@ class Cuenta extends Conexion{
                 'DELETE FROM cuenta WHERE id = ? LIMIT 1',
                 [id]
             );
-            // let [doctor] = results;
+             // Verifica si se eliminó alguna fila
+             if (results.affectedRows === 0) {
+                return { status: 404, message: `La cuenta con id ${paciente_fk} no fue encontrado.` };
+            }
             return {status: 200, message: `La cuenta ${id} fue eliminada exitosamente`, data: results};
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al eliminar la cuenta ${id}`, data: error}));
