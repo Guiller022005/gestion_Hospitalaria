@@ -48,7 +48,7 @@ class Paciente extends Conexion{
                 [cedula]
             );
             // let [doctor] = results;
-            return {status: 200, message: `El usuario ${cedula} fue eliminado exitosamente`, data: results};
+            return {status: 200, message: `El usuario ${nombre} fue eliminado exitosamente`, data: results};
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al eliminar el paciente ${cedula}`, data: error}));
         }

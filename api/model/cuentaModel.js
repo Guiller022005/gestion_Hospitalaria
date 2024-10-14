@@ -40,7 +40,7 @@ class Cuenta extends Conexion{
             throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al guardar la informacion de la cuenta `, data: error}));
         }
     }
-    async eliminar(id) {
+    async eliminar(nit) {
         try {
             let driver = await this.conexion;
             const [results] = await driver.data.query(

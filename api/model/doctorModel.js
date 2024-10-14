@@ -72,6 +72,9 @@ class Doctor extends Conexion{
                 [id]
             );
             // let [doctor] = results;
+            if (results.affectedRows === 0) {
+                return { status: 404, message: `La cuenta con id ${paciente_fk} no fue encontrado.` };
+            }
             return {status: 200, message: `El usuario ${id} fue eliminado exitosamente`, data: results};
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al eliminar el doctor ${id}`, data: error}));
