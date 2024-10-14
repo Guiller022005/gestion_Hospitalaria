@@ -1,10 +1,10 @@
 const { join } = require("path");
-const aviso = require('../model/avisoModel')
+const Aviso = require('../model/avisoModel')
 
 exports.obtenerTodosLosAvisos = async(req, res) => {
     try {
-        let doctor = new aviso();
-        let resultado = await doctor.listaDeAvisos();
+        let aviso = new Aviso();
+        let resultado = await aviso.listaDeAvisos();
         if(resultado.status == 200) return res.status(resultado.status).json(resultado);
     } catch (error) {
         console.log(error);
@@ -14,9 +14,9 @@ exports.obtenerTodosLosAvisos = async(req, res) => {
 }
 exports.obtenerUnAvisoPorId = async(req, res) => {
     try {
-        let doctor = new aviso();
+        let aviso = new Aviso();
         let {id} = req.params;
-        let resultado = await doctor.informacionAviso(id);
+        let resultado = await aviso.informacionAviso(id);
         if(resultado.status == 200) return res.status(resultado.status).json(resultado);
 
     } catch (error) {
@@ -27,8 +27,8 @@ exports.obtenerUnAvisoPorId = async(req, res) => {
 }
 exports.guardarAviso = async(req, res) => {
     try {
-        let doctor = new aviso();
-        let resultado = await doctor.guardar(req.body);
+        let aviso = new Aviso();
+        let resultado = await aviso.guardar(req.body);
         if(resultado.status == 200) return res.status(resultado.status).json(resultado);
     } catch (error) {
         console.log(error);
@@ -38,9 +38,9 @@ exports.guardarAviso = async(req, res) => {
 }
 exports.eliminarAviso = async(req, res) => {
     try {
-        let doctor = new aviso();
+        let aviso = new Aviso();
         let {id} = req.params;
-        let resultado = await doctor.eliminar(id);
+        let resultado = await aviso.eliminar(id);
         if(resultado.status == 200) return res.status(resultado.status).json(resultado);
     } catch (error) {
         console.log(error);
