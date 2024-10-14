@@ -12,17 +12,6 @@ exports.obtenerTodosLosDoctores = async(req, res) => {
         if(err.status == 500) return res.status(err.status).json(err);
     }
 }
-exports.obtenerTodosLosContactos = async(req, res) => {
-    try {
-        let doctor = new Doctor();
-        let resultado = await doctor.listaContactos();
-        if(resultado.status == 200) return res.status(resultado.status).json(resultado);
-    } catch (error) {
-        console.log(error);
-        let err = JSON.parse(error.message);
-        if(err.status == 500) return res.status(err.status).json(err);
-    }
-}
 exports.obtenerUnDoctorPorId = async(req, res) => {
     try {
         let doctor = new Doctor();

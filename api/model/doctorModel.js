@@ -8,7 +8,7 @@ class Doctor extends Conexion{
             let driver = await this.conexion;
             const [results] = await driver.data.query(
                 `SELECT 
-                    d.id AS DoctorID,  -- Aquí mostramos el ID del doctor
+                    d.id AS DoctorID,  
                     d.nombre_completo AS Doctor,
                     d.genero AS Genero,
                     d.fecha_nacimiento AS Fecha_Nacimiento,
