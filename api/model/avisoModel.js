@@ -34,7 +34,7 @@ class Aviso extends Conexion{
                 'INSERT INTO aviso (hospital_fk, nombre, descripcion, fecha) VALUES (?,?,?,?)',
                 [hospital_fk, nombre, descripcion, fecha]
             );
-            return { status: 200, message: `El aviso ${nombre} fue guardado exitosamente`, data: res};
+            return { status: 200, message: `El aviso ${nombre} fue guardado exitosamente`, data: results};
         } catch (error) {
             throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al guardar la informacion del aviso ${nombre}`, error}));
         }
@@ -46,11 +46,16 @@ class Aviso extends Conexion{
                 'DELETE FROM aviso WHERE id = ? LIMIT 1',
                 [id]
             );
-            // let [doctor] = results;
-            return {status: 200, message: `El aviso ${nombre} fue eliminado exitosamente`, data: results};
+            
+            // Verifica si se eliminó alguna fila
+            if (results.affectedRows === 0) {
+                return { status: 404, message: `El aviso con id ${id} no fue encontrado.` };
+            }
+    
+            return { status: 200, message: `El aviso con id ${id} fue eliminado exitosamente`, data: results };
         } catch (error) {
-            throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al eliminar el aviso ${id}`, data: error}));
+            throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al eliminar el aviso ${id}`, data: error }));
         }
     }
-}
+}    
 module.exports = Aviso;
