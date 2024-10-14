@@ -14,6 +14,17 @@ class Doctor extends Conexion{
             throw new Error(JSON.stringify({ status: 500, message: "Ocurrio un error al obtener todos los doctores", data: error}))
         }
     }
+    async listaContactos() {
+        try {
+            let driver = await this.conexion;
+            const [results] = await driver.data.query(
+                'select * from comunicacion_doctor'
+            );
+            return {status: 200, message: "list of contacts", data: results};
+        } catch (error) {
+            throw new Error(JSON.stringify({ status: 500, message: "Ocurrio un error al obtener los contactos de los doctores", data: error}))
+        }
+    }
     async informacionDoctor(id) {
         try {
             let driver = await this.conexion;
@@ -33,6 +44,19 @@ class Doctor extends Conexion{
             const [results] = await driver.data.query(
                 'INSERT INTO doctor (nombre_completo, genero, especialidad_fk, fecha_nacimiento, estado) VALUES (?,?,?,?,?)',
                 [nombre, genero, especialidad, fecha_nacimiento, estado]
+            );
+            // let [doctor] = results;
+            return {status: 200, message: `El usuario ${nombre} fue guardado exitosamente`, data: results};
+        } catch (error) {
+            throw new Error(JSON.stringify({ status: 500, message: `Ocurrio un error al guardar la informacion del doctor ${nombre}`, data: error}));
+        }
+    }
+    async guardarContactoDoctor({doctor_fk, tipo, contacto}) {
+        try {
+            let driver = await this.conexion;
+            const [results] = await driver.data.query(
+                'INSERT INTO comunicacion_doctor (doctor_fk, tipo, contacto) VALUES  (?,?,?)',
+                [doctor_fk, tipo, contacto]
             );
             // let [doctor] = results;
             return {status: 200, message: `El usuario ${nombre} fue guardado exitosamente`, data: results};
