@@ -23,7 +23,7 @@
                 <img src="./storage/img/message.png" alt="Messages" class="icon">
                 <div class="user-info">
                     <div class="userRol">
-                        <span>Marvin McKinney </span>
+                        <span>Marvin McKinney</span>
                         <small>Admin</small>
                     </div>
                     <div class="user-avatar">M</div>
@@ -33,16 +33,16 @@
     </header>
     <nav class="sub-nav">
         <ul>
-            <li><a href="#" class="active">Doctor</a></li>
-            <li><a href="#">Poblacion</a></li>
+            <li><a href="#" class="active" id="doctors-tab">Doctor</a></li>
+            <li><a href="#" id="poblacion-tab">Población</a></li>
         </ul>
     </nav>
     <main>
-        <section class="content">
+        <section class="content" id="doctors-section">
             <div class="content-header">
                 <div>
-                    <h1>Lista de doctores</h1>
-                    <p id="doctorsCount">Cargando doctores...</p> <!-- Cambiado para mostrar carga -->
+                    <h1>Lista de Doctores</h1>
+                    <p id="doctorsCount">Cargando doctores...</p>
                 </div>
                 <a href="/Add_Doctor">
                     <button class="add-doctor"><img src="./storage/img/add_User.png" style="margin-right: 0.5rem;">Add new doctor</button>
@@ -65,63 +65,155 @@
                 </tbody>
             </table>
         </section>
+
+        <section class="content" id="patients-section" style="display: none;">
+            <div class="content-header">
+                <div>
+                    <h1>Lista de Pacientes</h1>
+                    <p id="patientsCount">Cargando pacientes...</p>
+                </div>
+                <a href="/Add_Patient">
+                    <button class="add-doctor"><img src="./storage/img/add_User.png" style="margin-right: 0.5rem;">Add new patient</button>
+                </a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cédula</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Género</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Edad</th>
+                        <th>Estado</th>
+                        <th>Teléfono</th>
+                        <th>Celular</th>
+                        <th>Correo Electrónico</th>
+                    </tr>
+                </thead>
+                <tbody id="patient-list">
+                    <!-- Los pacientes serán cargados aquí dinámicamente -->
+                </tbody>
+            </table>
+        </section>
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // URL de la API para doctores
+            // URL de la API
+            const apiUrlPacientes = 'http://localhost:3000/paciente/v1/todos';
             const apiUrlDoctores = 'http://localhost:3000/doctor/v1/todos';
-    
-            // Obtener el elemento del párrafo donde se mostrará el número de doctores
+
+            // Obtener elementos del DOM
             const doctorsCount = document.getElementById('doctorsCount');
+            const patientsCount = document.getElementById('patientsCount');
             const doctorList = document.getElementById('doctor-list');
-    
-            // Hacer la petición a la API de doctores
-            fetch(apiUrlDoctores)
-                .then(response => response.json())
-                .then(dataDoctores => {
-                    // Actualizar el número de doctores disponibles
-                    const numberOfDoctors = dataDoctores.data.length; // Contar doctores
-                    doctorsCount.textContent = `${numberOfDoctors} available doctors`; // Actualizar texto
+            const patientList = document.getElementById('patient-list');
+            const doctorsTab = document.getElementById('doctors-tab');
+            const poblacionTab = document.getElementById('poblacion-tab');
+            const doctorsSection = document.getElementById('doctors-section');
+            const patientsSection = document.getElementById('patients-section');
 
-                    // Limpiar el contenido anterior
-                    doctorList.innerHTML = '';
+            // Función para cargar doctores
+            function loadDoctors() {
+                fetch(apiUrlDoctores)
+                    .then(response => response.json())
+                    .then(dataDoctores => {
+                        const numberOfDoctors = dataDoctores.data.length; // Contar doctores
+                        doctorsCount.textContent = `${numberOfDoctors} available doctors`; // Actualizar texto
 
-                    // Iterar sobre la lista de doctores de la API
-                    dataDoctores.data.forEach(doctor => {
-                        // Crear una fila para cada doctor
-                        const row = document.createElement('tr');
-    
-                        // Definir la estructura HTML para cada fila
-                        row.innerHTML = `
-                            <td>
-                                <div class="doctor-info">
-                                    <img src="./storage/img/user1.png" alt="Doctor avatar" class="doctor-avatar">
-                                    <div>
-                                        <div class="doctor-name">${doctor.Doctor}</div>
-                                        <div class="doctor-specialty">Especialidad ${doctor.Especialidad}</div>
+                        // Limpiar el contenido anterior
+                        doctorList.innerHTML = '';
+
+                        // Iterar sobre la lista de doctores de la API
+                        dataDoctores.data.forEach(doctor => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>
+                                    <div class="doctor-info">
+                                        <img src="./storage/img/user1.png" alt="Doctor avatar" class="doctor-avatar">
+                                        <div>
+                                            <div class="doctor-name">${doctor.Doctor}</div>
+                                            <div class="doctor-specialty">Especialidad ${doctor.Especialidad}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>${doctor.DoctorID}</td>
-                            <td>${doctor.Correo_Electronico || 'N/A'}</td>
-                            <td>${doctor.Telefono || 'N/A'}</td>
-                            <td>
-                                <div class="date-added">${new Date(doctor.Fecha_Nacimiento).toLocaleDateString()}</div>
-                                <div class="time-added">N/A</div>
-                            </td>
-                            <td><span class="status ${doctor.Estado}">${doctor.Estado}</span></td>
-                            <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
-                        `;
-    
-                        // Añadir la fila a la tabla
-                        doctorList.appendChild(row);
+                                </td>
+                                <td>${doctor.DoctorID}</td>
+                                <td>${doctor.Correo_Electronico || 'N/A'}</td>
+                                <td>${doctor.Telefono || 'N/A'}</td>
+                                <td>
+                                    <div class="date-added">${new Date(doctor.Fecha_Nacimiento).toLocaleDateString()}</div>
+                                    <div class="time-added">N/A</div>
+                                </td>
+                                <td><span class="status ${doctor.Estado}">${doctor.Estado}</span></td>
+                                <td><a href="#" class="more-info"><img src="./storage/img/Right-2.png"></a></td>
+                            `;
+                            doctorList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching doctor data:', error);
+                        doctorsCount.textContent = 'Error al cargar doctores'; // Mensaje de error
                     });
-                })
-                .catch(error => {
-                    console.error('Error fetching doctor data:', error);
-                    doctorsCount.textContent = 'Error al cargar doctores'; // Mensaje de error
-                });
+            }
+
+            // Función para cargar pacientes
+            function loadPatients() {
+                fetch(apiUrlPacientes)
+                    .then(response => response.json())
+                    .then(dataPacientes => {
+                        const numberOfPatients = dataPacientes.data.length; // Contar pacientes
+                        patientsCount.textContent = `${numberOfPatients} available patients`; // Actualizar texto
+
+                        // Limpiar el contenido anterior
+                        patientList.innerHTML = '';
+
+                        // Iterar sobre la lista de pacientes de la API
+                        dataPacientes.data.forEach(paciente => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${paciente.Cedula}</td>
+                                <td>${paciente.Nombre}</td>
+                                <td>${paciente.Apellido}</td>
+                                <td>${paciente.Genero}</td>
+                                <td>${new Date(paciente.Fecha_nacimiento).toLocaleDateString()}</td>
+                                <td>${paciente.Edad}</td>
+                                <td>${paciente.Estado}</td>
+                                <td>${paciente.Telefono || 'N/A'}</td>
+                                <td>${paciente.Celular || 'N/A'}</td>
+                                <td>${paciente.Correo_Electronico || 'N/A'}</td>
+                            `;
+                            patientList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching patient data:', error);
+                        patientsCount.textContent = 'Error al cargar pacientes'; // Mensaje de error
+                    });
+            }
+
+            // Manejador de clic para la pestaña "Doctor"
+            doctorsTab.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                doctorsTab.classList.add('active');
+                poblacionTab.classList.remove('active');
+                doctorsSection.style.display = 'block'; // Mostrar la sección de doctores
+                patientsSection.style.display = 'none'; // Ocultar la sección de pacientes
+                loadDoctors(); // Cargar doctores
+            });
+
+            // Manejador de clic para la pestaña "Población"
+            poblacionTab.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                poblacionTab.classList.add('active');
+                doctorsTab.classList.remove('active');
+                patientsSection.style.display = 'block'; // Mostrar la sección de pacientes
+                doctorsSection.style.display = 'none'; // Ocultar la sección de doctores
+                loadPatients(); // Cargar pacientes
+            });
+
+            // Cargar doctores por defecto al inicio
+            loadDoctors();
         });
-    </script>    
+    </script>
 </body>
 </html>
