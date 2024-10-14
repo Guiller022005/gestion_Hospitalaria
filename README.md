@@ -181,3 +181,309 @@ body:
 }
 ```
 
+
+
+------
+
+
+
+## Eliminar la informacion del doctor
+
+**Method** : `DELETE`
+
+**URL** : `http://localhost:3000/doctor/v1/:id`
+
+**URL Parameters** : `id=[number]` El **id** es el identificador único asignado al doctor.
+
+**Auth required** : `False`
+**Headers**:
+
+```json
+{ "Content-Type": "application/json"}
+```
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```json
+{
+  "status": 200,
+  "message": "El usuario 11 fue eliminado exitosamente",
+  "data": {
+    "fieldCount": 0,
+    "affectedRows": 1,
+    "insertId": 0,
+    "info": "",
+    "serverStatus": 2,
+    "warningStatus": 0,
+    "changedRows": 0
+  }
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q la fecha a enviar no corresponde con el formato establecido.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrio un error al eliminar la informacion del doctor Pepito perez",
+  "data": {
+    "fieldCount": 0,
+    "affectedRows": 0,
+    "insertId": 0,
+    "info": "",
+    "serverStatus": 2,
+    "warningStatus": 0,
+    "changedRows": 0
+  }
+}
+```
+
+
+------
+
+
+
+# Aviso
+
+## Obtener todos los avisos
+
+**Method** : `GET`
+
+**URL** : `http://localhost:3000/aviso/v1/todos`
+
+**Auth required** : `False`
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```
+{
+  "status": 200,
+  "message": "list of Doctors",
+  "data": [
+    {
+      "id": 1,
+      "nombre_completo": "Dr. José Martínez",
+      "genero": "Masculino",
+      "especialidad_fk": 1,
+      "fecha_nacimiento": "1975-04-12T05:00:00.000Z",
+      "estado": "Activo"
+    },
+    {
+      "id": 2,
+      "nombre_completo": "Dra. Laura Gutiérrez",
+      "genero": "Femenino",
+      "especialidad_fk": 2,
+      "fecha_nacimiento": "1980-09-25T05:00:00.000Z",
+      "estado": "Suspendido"
+    },
+	....
+	]
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q la tabla no existe en la base de datos.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrio un error al obtener todos los doctores",
+  "data": {
+    "message": "Table 'hospital.docto' doesn't exist",
+    "code": "ER_NO_SUCH_TABLE",
+    "errno": 1146,
+    "sql": "select * from docto",
+    "sqlState": "42S02",
+    "sqlMessage": "Table 'hospital.docto' doesn't exist"
+  }
+}
+```
+
+
+
+------
+
+
+
+## Obtener un aviso por id
+
+**Method** : `GET`
+
+**URL** : `http://localhost:3000/doctor/v1/:id`
+**URL Parameters** : `id=[number]` El **id** es el identificador único asignado al doctor.
+
+**Auth required** : `False`
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```
+{
+  "status": 200,
+  "message": "informacion del aviso Donación de sangre",
+  "data": {
+    "id": 3,
+    "hospital_fk": 9003,
+    "nombre": "Donación de sangre",
+    "descripcion": "Campaña de donación de sangre abierta al público",
+    "fecha": "2024-07-22T14:00:00.000Z"
+  }
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Si se envia un id que no existe en la base de datos, se generara este errror. Por ejemplo, sen envió el id 11.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrio un error al obtener la informacion del aviso 11",
+  "data": {}
+}
+```
+
+
+
+
+
+------
+
+
+
+
+
+## Guardar la informacion del aviso
+
+**Method** : `POST`
+
+**URL** : `http://localhost:3000/aviso/v1`
+
+**Auth required** : `False`
+**Headers**:
+
+```json
+{ "Content-Type": "application/json"}
+```
+
+body:
+
+```json
+{
+	"hospital_fk": "12",
+	"nombre": "Masculino", 
+  "descripcion": 5, 
+	"fecha": "1998-02-30"
+}
+```
+
+
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```json
+{
+  "status": 200,
+  "message": "El aviso Jornada de vacunación fue guardado exitosamente",
+  "data": {
+    "fieldCount": 0,
+    "affectedRows": 1,
+    "insertId": 11,
+    "info": "",
+    "serverStatus": 2,
+    "warningStatus": 0,
+    "changedRows": 0
+  }
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q el aviso a enviar no corresponde con el formato establecido.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrio un error al guardar la informacion del aviso undefined",
+  "error": {
+    "message": "Column count doesn't match value count at row 1",
+    "code": "ER_WRONG_VALUE_COUNT_ON_ROW",
+    "errno": 1136,
+    "sql": "INSERT INTO aviso (hospital_fk, nombre, descripcion, fecha) VALUES (`hospital_fk` = '12', `nombre` = 'Masculino', 		`descripcion` = 5, 
+	`fecha` = '1998-02-30',NULL,NULL,NULL)",
+    "sqlState": "21S01",
+    "sqlMessage": "Column count doesn't match value count at row 1"
+  }
+}
+```
+
+
+
+------
+
+
+
+## Eliminar la informacion del aviso
+
+**Method** : `DELETE`
+
+**URL** : `http://localhost:3000/aviso/v1/:id`
+
+**URL Parameters** : `id=[number]` El **id** es el identificador único asignado al doctor.
+
+**Auth required** : `False`
+**Headers**:
+
+```json
+{ "Content-Type": "application/json"}
+```
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```json
+{
+  "status": 200,
+  "message": "El aviso Jornada de vacunación eliminado exitosamente",
+  "data": {
+    "fieldCount": 0,
+    "affectedRows": 1,
+    "insertId": 0,
+    "info": "",
+    "serverStatus": 2,
+    "warningStatus": 0,
+    "changedRows": 0
+  }
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q la fecha a enviar no corresponde con el formato establecido.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrio un error al eliminar el aviso Jornada de vacunación",
+  "data": {
+    "fieldCount": 0,
+    "affectedRows": 0,
+    "insertId": 0,
+    "info": "",
+    "serverStatus": 2,
+    "warningStatus": 0,
+    "changedRows": 0
+  }
+}
+```

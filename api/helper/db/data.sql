@@ -113,7 +113,7 @@ INSERT INTO doctor (nombre_completo, genero, especialidad_fk, fecha_nacimiento, 
 ('Dr. Luis Mendoza','Masculino',9,'1976-08-22','Suspendido'),
 ('Dra. Sofía Morales','Femenino',10,'1984-10-05','Vacaciones');
 
-INSERT INTO comunicacion_doctor VALUES 
+INSERT INTO comunicacion_doctor (doctor_fk, tipo, contacto) VALUES 
 (2,'Celular','311-7895'),
 (5,'Celular','312-6543'),
 (6,'Celular','312-8923'),
