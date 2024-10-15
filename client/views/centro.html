@@ -82,12 +82,11 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Cargo</th>
-                        <th>Teléfono</th>
-                        <th>Celular</th>
-                        <th>Correo Electrónico</th>
+                        <th>Doctor</th>
+                        <th>Estado</th>
+                        <th>Hospital ID</th>
+                        <th>Hospital</th>
+                        <th>Direccion</th>
                     </tr>
                 </thead>
                 <tbody id="personal-list">
@@ -100,7 +99,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // URL de la API
             const apiUrlHospitales = 'http://localhost:3000/hospital/v1/todos';
-            const apiUrlPersonal = 'http://localhost:3000/personal/v1/todos';
+            const apiUrlPersonal = 'http://localhost:3000/personal/v1/'; // Cambiado para ajustarse a tu API
 
             // Obtener elementos del DOM
             const hospitalsCount = document.getElementById('hospitalsCount');
@@ -159,13 +158,12 @@
                         dataPersonal.data.forEach(personal => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <td>${personal.ID}</td>
-                                <td>${personal.Nombre}</td>
-                                <td>${personal.Apellido}</td>
-                                <td>${personal.Cargo}</td>
-                                <td>${personal.Telefono || 'N/A'}</td>
-                                <td>${personal.Celular || 'N/A'}</td>
-                                <td>${personal.Correo_Electronico || 'N/A'}</td>
+                                <td>${personal.DoctorID}</td> <!-- Ajusta esto según el nombre real en tu API -->
+                                <td>${personal.Doctor}</td>    <!-- Ajusta esto según el nombre real en tu API -->
+                                <td>${personal.Estado}</td>
+                                <td>${personal.HospitalID}</td>
+                                <td>${personal.Hospital}</td>
+                                <td>${personal.Direccion}</td>
                             `;
                             personalList.appendChild(row);
                         });

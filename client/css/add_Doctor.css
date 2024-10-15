@@ -54,6 +54,22 @@ header {
     font-weight: 600;
 }
 
+.next {
+    background-color: #5F8D4E;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+    margin-right: 10px;
+}
+
 .user-section {
     display: flex;
     align-items: center;

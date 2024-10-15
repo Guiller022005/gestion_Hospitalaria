@@ -16,8 +16,36 @@
     </style>
 </head>
 <body>
-    <!-- Header and navigation code remains the same -->
-
+    <header>
+        <div class="header-content">
+            <nav class="main-nav">
+                <img src="./storage/img/plus.png" alt="Logo" class="logo">
+                <ul>
+                    <li><a href="#" class="active" id="especialistas-link">Especialistas</a></li>
+                    <li><a href="#" id="centro-link">Centro</a></li>
+                    <li><a href="facturas.html">Facturas</a></li>
+                </ul>
+            </nav>
+            <div class="user-section">
+                <img src="./storage/img/window.png" alt="Grid view" class="icon">
+                <img src="./storage/img/stadics.png" alt="Chart view" class="icon">
+                <img src="./storage/img/message.png" alt="Messages" class="icon">
+                <div class="user-info">
+                    <div class="userRol">
+                        <span>Marvin McKinney</span>
+                        <small>Admin</small>
+                    </div>
+                    <div class="user-avatar">M</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="sub-nav">
+        <ul>
+            <li><a href="#" class="active">Doctor</a></li>
+            <li><a href="#">Paciente</a></li>
+        </ul>
+    </nav>
     <main>
         <section class="form-section">
             <div class="form-container">
@@ -59,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="button" id="next-step-btn">Siguiente</button>
+                                <button type="button" id="next-step-btn" class="next">Siguiente</button>
                             </div>
                         </div>
 
@@ -81,7 +109,8 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="submit" id="submit-btn">Guardar Doctor</button>
+                                <button type="button" id="prev-step-btn" class="next">Anterior</button>
+                                <button type="submit" id="submit-btn" class="next">Guardar Doctor</button>
                             </div>
                         </div>
                     </form>
@@ -97,9 +126,14 @@
         const basicInfoSection = document.getElementById('basic-info-section');
         const contactInfoSection = document.getElementById('contact-info-section');
         const nextStepBtn = document.getElementById('next-step-btn');
+        const prevStepBtn = document.getElementById('prev-step-btn');
         const formTitle = document.getElementById('form-title');
         const doctorForm = document.getElementById('doctor-form');
         const especialidadSelect = document.getElementById('especialidad');
+        const centroLink = document.getElementById('centro-link');
+
+        // Object to store form data temporarily
+        let tempFormData = {};
 
         // Fetch specialties and populate the select
         fetch('http://localhost:3000/especialidad/v1/')
@@ -125,15 +159,67 @@
             })
             .catch(error => console.error('Error fetching specialties:', error));
 
-        // Handle next step button click
-        nextStepBtn.addEventListener('click', function() {
-            if (validateBasicInfo()) {
+        // Function to save form data temporarily
+        function saveTempFormData() {
+            const formData = new FormData(doctorForm);
+            formData.forEach((value, key) => {
+                tempFormData[key] = value;
+            });
+        }
+
+        // Function to load temp form data
+        function loadTempFormData() {
+            Object.keys(tempFormData).forEach(key => {
+                const field = doctorForm.elements[key];
+                if (field) {
+                    field.value = tempFormData[key];
+                }
+            });
+        }
+
+        // Function to switch between form sections
+        function switchSection(toBasic = true) {
+            if (toBasic) {
+                basicInfoSection.style.display = 'block';
+                contactInfoSection.style.display = 'none';
+                step1.classList.add('active-step');
+                step1.classList.remove('completed-step');
+                step2.classList.remove('active-step');
+                formTitle.textContent = 'Información básica';
+            } else {
+                basicInfoSection.style.display = 'none';
+                contactInfoSection.style.display = 'block';
                 step1.classList.remove('active-step');
                 step1.classList.add('completed-step');
                 step2.classList.add('active-step');
-                basicInfoSection.style.display = 'none';
-                contactInfoSection.style.display = 'block';
                 formTitle.textContent = 'Información de contacto';
+            }
+        }
+
+        // Handle next step button click
+        nextStepBtn.addEventListener('click', function() {
+            if (validateBasicInfo()) {
+                saveTempFormData();
+                switchSection(false);
+            }
+        });
+
+        // Handle previous step button click
+        prevStepBtn.addEventListener('click', function() {
+            saveTempFormData();
+            switchSection(true);
+        });
+
+        // Handle step navigation by clicking on steps
+        step1.addEventListener('click', function() {
+            saveTempFormData();
+            switchSection(true);
+        });
+
+        step2.addEventListener('click', function() {
+            if (validateBasicInfo()) {
+                saveTempFormData();
+                switchSection(false);
             }
         });
 
@@ -141,15 +227,15 @@
         doctorForm.addEventListener('submit', function(e) {
             e.preventDefault();
             if (validateContactInfo()) {
-                const formData = new FormData(doctorForm);
+                saveTempFormData();
                 const doctorData = {
-                    nombre: formData.get('nombre'),
-                    genero: formData.get('genero'),
-                    especialidad: formData.get('especialidad'),
-                    fecha_nacimiento: formData.get('fecha_nacimiento'),
+                    nombre: tempFormData.nombre,
+                    genero: tempFormData.genero,
+                    especialidad: tempFormData.especialidad,
+                    fecha_nacimiento: tempFormData.fecha_nacimiento,
                     estado: 'Activo', // Default state
-                    tipo_contacto: formData.get('tipo_contacto'),
-                    contacto: formData.get('contacto')
+                    tipo_contacto: tempFormData.tipo_contacto,
+                    contacto: tempFormData.contacto
                 };
 
                 fetch('http://localhost:3000/doctor/v1/', {
@@ -164,13 +250,8 @@
                     console.log('Doctor guardado:', data);
                     alert('Doctor guardado exitosamente');
                     doctorForm.reset();
-                    // Reset form view to basic info
-                    basicInfoSection.style.display = 'block';
-                    contactInfoSection.style.display = 'none';
-                    step1.classList.add('active-step');
-                    step1.classList.remove('completed-step');
-                    step2.classList.remove('active-step');
-                    formTitle.textContent = 'Información básica';
+                    tempFormData = {};
+                    switchSection(true);
                 })
                 .catch(error => {
                     console.error('Error al guardar doctor:', error);
@@ -180,14 +261,34 @@
         });
 
         function validateBasicInfo() {
-            // Add your validation logic here
-            return true; // Return true if validation passes
+            const requiredFields = ['nombre', 'genero', 'especialidad', 'fecha_nacimiento'];
+            for (let field of requiredFields) {
+                if (!doctorForm.elements[field].value) {
+                    alert(`Por favor, complete el campo ${field}`);
+                    return false;
+                }
+            }
+            return true;
         }
 
         function validateContactInfo() {
-            // Add your validation logic here
-            return true; // Return true if validation passes
+            const requiredFields = ['tipo_contacto', 'contacto'];
+            for (let field of requiredFields) {
+                if (!doctorForm.elements[field].value) {
+                    alert(`Por favor, complete el campo ${field}`);
+                    return false;
+                }
+            }
+            return true;
         }
+        // Manejador de clic para el enlace "Centro"
+        centroLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir comportamiento por defecto
+                window.location.href = 'centro'; // Redirigir a centro.html
+            });
+
+        // Load any saved data when the page loads
+        loadTempFormData();
     </script>
 </body>
 </html>
