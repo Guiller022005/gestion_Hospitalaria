@@ -14,7 +14,7 @@
                 <ul>
                     <li><a href="#" class="active" id="especialistas-link">Especialistas</a></li>
                     <li><a href="#" id="centro-link">Centro</a></li>
-                    <li><a href="facturas.html">Facturas</a></li>
+                    <li><a href="/factura">Facturas</a></li>
                 </ul>
             </nav>
             <div class="user-section">
@@ -70,27 +70,21 @@
         <section class="content" id="patients-section" style="display: none;">
             <div class="content-header">
                 <div>
-                    <h1>Lista de Pacientes</h1>
+                    <h1>Lista de Pacientes a Cargo</h1>
                     <p id="patientsCount">Cargando pacientes...</p>
                 </div>
-                <a href="/Add_Doctor" class="add-doctor">
+                <a href="/Add_Paciente" class="add-doctor">
                     <img src="./storage/img/add_User.png" alt="Add user icon">
-                    Add new Paciente
+                    Add new Población
                 </a>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Cédula</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Género</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>Edad</th>
-                        <th>Estado</th>
-                        <th>Teléfono</th>
-                        <th>Celular</th>
-                        <th>Correo Electrónico</th>
+                        <th>DoctorID</th>
+                        <th>Doctor</th>
+                        <th>PacienteID</th>
+                        <th>PacienteNombre</th>
                     </tr>
                 </thead>
                 <tbody id="patient-list">
@@ -102,7 +96,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // URL de la API
-            const apiUrlPacientes = 'http://localhost:3000/paciente/v1/todos';
+            const apiUrlPacientes = 'http://localhost:3000/poblacion/v1/';
             const apiUrlDoctores = 'http://localhost:3000/doctor/v1/todos';
 
             // Obtener elementos del DOM
@@ -174,16 +168,10 @@
                         dataPacientes.data.forEach(paciente => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <td>${paciente.Cedula}</td>
-                                <td>${paciente.Nombre}</td>
-                                <td>${paciente.Apellido}</td>
-                                <td>${paciente.Genero}</td>
-                                <td>${new Date(paciente.Fecha_nacimiento).toLocaleDateString()}</td>
-                                <td>${paciente.Edad}</td>
-                                <td>${paciente.Estado}</td>
-                                <td>${paciente.Telefono || 'N/A'}</td>
-                                <td>${paciente.Celular || 'N/A'}</td>
-                                <td>${paciente.Correo_Electronico || 'N/A'}</td>
+                                <td>${paciente.DoctorID}</td>
+                                <td>${paciente.Doctor}</td>
+                                <td>${paciente.PacienteID}</td>
+                                <td>${paciente.PacienteNombre}</td>
                             `;
                             patientList.appendChild(row);
                         });
