@@ -12,9 +12,9 @@
             <nav class="main-nav">
                 <img src="./storage/img/plus.png" alt="Logo" class="logo">
                 <ul>
-                    <li><a href="#" class="active">Especialistas</a></li>
-                    <li><a href="#">Centro</a></li>
-                    <li><a href="#">Facturas</a></li>
+                    <li><a href="#" class="active" id="especialistas-link">Especialistas</a></li>
+                    <li><a href="#" id="centro-link">Centro</a></li>
+                    <li><a href="facturas.html">Facturas</a></li>
                 </ul>
             </nav>
             <div class="user-section">
@@ -114,6 +114,7 @@
             const poblacionTab = document.getElementById('poblacion-tab');
             const doctorsSection = document.getElementById('doctors-section');
             const patientsSection = document.getElementById('patients-section');
+            const centroLink = document.getElementById('centro-link');
 
             // Función para cargar doctores
             function loadDoctors() {
@@ -213,7 +214,13 @@
                 loadPatients(); // Cargar pacientes
             });
 
-            // Cargar doctores por defecto al inicio
+            // Manejador de clic para el enlace "Centro"
+            centroLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir comportamiento por defecto
+                window.location.href = 'centro'; // Redirigir a centro.html
+            });
+
+            // Cargar los doctores al cargar la página
             loadDoctors();
         });
     </script>

@@ -44,9 +44,9 @@ header {
     background-color: white;
     color: #2E7D32;
     border-radius: 10px 10px 0 0;
-    padding: 1.5rem 1.5rem 1.75rem;
+    padding: 1rem 1.5rem 2rem;
     position: relative;
-    top: 12px;
+    top: 1px;
     font-weight: 600;
 }
 .user-section {
