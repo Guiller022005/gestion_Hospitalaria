@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Hospitalario</title>
+    <link rel="stylesheet" href="../css/centro.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <nav class="main-nav">
+                <img src="../storage/img/plus.png" alt="Logo" class="logo">
+                <ul>
+                    <li><a href="#" id="especialistas-link">Especialistas</a></li>
+                    <li><a href="#" class="active">Centro</a></li>
+                    <li><a href="#">Facturas</a></li>
+                </ul>
+            </nav>
+            <div class="user-section">
+                <img src="../storage/img/window.png" alt="Grid view" class="icon">
+                <img src="../storage/img/stadics.png" alt="Chart view" class="icon">
+                <img src="../storage/img/message.png" alt="Messages" class="icon">
+                <div class="user-info">
+                    <div class="userRol">
+                        <span>Marvin McKinney</span>
+                        <small>Admin</small>
+                    </div>
+                    <div class="user-avatar">M</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="sub-nav">
+        <ul>
+            <li><a href="#" class="active" id="hospitals-tab">Hospitales</a></li>
+            <li><a href="#" id="personal-tab">Personal</a></li>
+            <li><a href="#" id="notices-tab">Avisos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="content" id="hospitals-section">
+            <div class="content-header">
+                <div>
+                    <h1>Lista de Hospitales</h1>
+                    <p id="hospitalsCount">Cargando hospitales...</p>
+                </div>
+                <a href="/Add_Hospital" class="add-doctor">
+                    <img src="../storage/img/add_User.png" alt="Add hospital icon">
+                    Añadir nuevo hospital
+                </a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nit</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+                <tbody id="hospital-list">
+                    <!-- Los hospitales serán cargados aquí dinámicamente -->
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content" id="personal-section" style="display: none;">
+            <div class="content-header">
+                <div>
+                    <h1>Lista de Personal</h1>
+                    <p id="personalCount">Cargando personal...</p>
+                </div>
+                <a href="/Add_Personal" class="add-doctor">
+                    <img src="../storage/img/add_User.png" alt="Add personal icon">
+                    Añadir nuevo personal
+                </a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cargo</th>
+                        <th>Teléfono</th>
+                        <th>Celular</th>
+                        <th>Correo Electrónico</th>
+                    </tr>
+                </thead>
+                <tbody id="personal-list">
+                    <!-- El personal será cargado aquí dinámicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL de la API
+            const apiUrlHospitales = 'http://localhost:3000/hospital/v1/todos';
+            const apiUrlPersonal = 'http://localhost:3000/personal/v1/todos';
+
+            // Obtener elementos del DOM
+            const hospitalsCount = document.getElementById('hospitalsCount');
+            const personalCount = document.getElementById('personalCount');
+            const hospitalList = document.getElementById('hospital-list');
+            const personalList = document.getElementById('personal-list');
+            const hospitalsTab = document.getElementById('hospitals-tab');
+            const personalTab = document.getElementById('personal-tab');
+            const hospitalsSection = document.getElementById('hospitals-section');
+            const personalSection = document.getElementById('personal-section');
+            const especialistasLink = document.getElementById('especialistas-link'); // Enlace de Especialistas
+
+            // Función para cargar hospitales
+            function loadHospitals() {
+                fetch(apiUrlHospitales)
+                    .then(response => response.json())
+                    .then(dataHospitales => {
+                        const numberOfHospitals = dataHospitales.data.length; // Contar hospitales
+                        hospitalsCount.textContent = `${numberOfHospitals} hospitales disponibles`; // Actualizar texto
+
+                        // Limpiar el contenido anterior
+                        hospitalList.innerHTML = '';
+
+                        // Iterar sobre la lista de hospitales de la API
+                        dataHospitales.data.forEach(hospital => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${hospital.HospitalID}</td>
+                                <td>${hospital.Hospital}</td>
+                                <td>${hospital.Direccion}</td>
+                                <td>${hospital.Telefono || 'N/A'}</td>
+                                <td>${hospital.Celular || 'N/A'}</td>
+                                <td>${hospital.Correo_Electronico || 'N/A'}</td>
+                            `;
+                            hospitalList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching hospital data:', error);
+                        hospitalsCount.textContent = 'Error al cargar hospitales'; // Mensaje de error
+                    });
+            }
+
+            // Función para cargar personal
+            function loadPersonal() {
+                fetch(apiUrlPersonal)
+                    .then(response => response.json())
+                    .then(dataPersonal => {
+                        const numberOfPersonal = dataPersonal.data.length; // Contar personal
+                        personalCount.textContent = `${numberOfPersonal} personal disponible`; // Actualizar texto
+
+                        // Limpiar el contenido anterior
+                        personalList.innerHTML = '';
+
+                        // Iterar sobre la lista de personal de la API
+                        dataPersonal.data.forEach(personal => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${personal.ID}</td>
+                                <td>${personal.Nombre}</td>
+                                <td>${personal.Apellido}</td>
+                                <td>${personal.Cargo}</td>
+                                <td>${personal.Telefono || 'N/A'}</td>
+                                <td>${personal.Celular || 'N/A'}</td>
+                                <td>${personal.Correo_Electronico || 'N/A'}</td>
+                            `;
+                            personalList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching personal data:', error);
+                        personalCount.textContent = 'Error al cargar personal'; // Mensaje de error
+                    });
+            }
+
+            // Manejador de clic para la pestaña "Hospitales"
+            hospitalsTab.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                hospitalsTab.classList.add('active');
+                personalTab.classList.remove('active');
+                hospitalsSection.style.display = 'block'; // Mostrar la sección de hospitales
+                personalSection.style.display = 'none'; // Ocultar la sección de personal
+                loadHospitals(); // Cargar hospitales
+            });
+
+            // Manejador de clic para la pestaña "Personal"
+            personalTab.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                personalTab.classList.add('active');
+                hospitalsTab.classList.remove('active');
+                personalSection.style.display = 'block'; // Mostrar la sección de personal
+                hospitalsSection.style.display = 'none'; // Ocultar la sección de hospitales
+                loadPersonal(); // Cargar personal
+            });
+
+            // Manejador de clic para el enlace "Especialistas"
+            especialistasLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                window.location.href = 'hospital'; // Redirigir a index.html
+            });
+
+            // Cargar hospitales por defecto al inicio
+            loadHospitals();
+        });
+    </script>
+</body>
+</html>
