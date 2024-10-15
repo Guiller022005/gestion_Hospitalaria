@@ -7,7 +7,9 @@ class Aviso extends Conexion{
         try {
             let driver = await this.conexion;
             const [results] = await driver.data.query(
-                'select * from aviso'
+                `SELECT a.id, a.nombre AS aviso_nombre, a.descripcion, a.fecha, h.nombre AS hospital_nombre 
+                FROM aviso a 
+                JOIN hospital h ON a.hospital_fk = h.nit`
             );
             return {status: 200, message: "lista de avisos", data: results};
         } catch (error) {
