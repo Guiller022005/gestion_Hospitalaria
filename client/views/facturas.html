@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Médico</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <nav class="main-nav">
+                <img src="./storage/img/plus.png" alt="Logo" class="logo">
+                <ul>
+                    <li><a href="/hospital" id="especialistas-link">Especialistas</a></li>
+                    <li><a href="#" id="centro-link">Centro</a></li>
+                    <li><a href="/facturas" class="active">Facturas</a></li>
+                </ul>
+            </nav>
+            <div class="user-section">
+                <img src="./storage/img/window.png" alt="Grid view" class="icon">
+                <img src="./storage/img/stadics.png" alt="Chart view" class="icon">
+                <img src="./storage/img/message.png" alt="Messages" class="icon">
+                <div class="user-info">
+                    <div class="userRol">
+                        <span>Marvin McKinney</span>
+                        <small>Admin</small>
+                    </div>
+                    <div class="user-avatar">M</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="sub-nav">
+        <ul>
+            <li><a href="#" id="poblacion-tab">Población</a></li>
+            <li><a href="#" class="active" id="doctors-tab">Facturas</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="content" id="patients-section" style="display: none;">
+            <div class="content-header">
+                <div>
+                    <h1>Lista de Pacientes</h1>
+                    <p id="patientsCount">Cargando pacientes...</p>
+                </div>
+                <a href="/Add_Doctor" class="add-doctor">
+                    <img src="./storage/img/add_User.png" alt="Add user icon">
+                    Add new Paciente
+                </a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cédula</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Género</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Edad</th>
+                        <th>Estado</th>
+                        <th>Teléfono</th>
+                        <th>Celular</th>
+                        <th>Correo Electrónico</th>
+                    </tr>
+                </thead>
+                <tbody id="patient-list">
+                    <!-- Los pacientes serán cargados aquí dinámicamente -->
+                </tbody>
+            </table>
+        </section>
+        <section class="content" id="doctors-section">
+            <div class="content-header">
+                <div>
+                    <h1>Lista de Facturas</h1>
+                    <p id="facturaCount">Cargando Facturas...</p>
+                </div>
+                <a href="/Add_Doctor" class="add-doctor">
+                    <img src="./storage/img/add_User.png" alt="Add user icon">
+                    Add new Factura
+                </a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Factura</th>
+                        <th>Cédula Paciente</th>
+                        <th>Nombre Paciente</th>
+                        <th>Nombre Hospital</th>
+                        <th>Monto Total</th>
+                        <th>Fecha</th>
+                        <th>Motivo</th>
+                        <th>Estado de Pago</th>
+                    </tr>
+                </thead>
+                <tbody id="factura-list">
+                    <!-- Las facturas serán cargadas aquí dinámicamente -->
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL de la API
+            const apiUrlPacientes = 'http://localhost:3000/paciente/v1/todos';
+            const apiUrlFacturas = 'http://localhost:3000/cuenta/v1/todos';
+
+            // Obtener elementos del DOM
+            const facturasCount = document.getElementById('facturaCount');
+            const patientsCount = document.getElementById('patientsCount');
+            const facturaList = document.getElementById('factura-list');
+            const patientList = document.getElementById('patient-list');
+            const doctorsTab = document.getElementById('doctors-tab');
+            const poblacionTab = document.getElementById('poblacion-tab');
+            const doctorsSection = document.getElementById('doctors-section');
+            const patientsSection = document.getElementById('patients-section');
+            const centroLink = document.getElementById('centro-link');
+
+             // Función para cargar facturas
+             function loadFacturas() {
+                fetch(apiUrlFacturas)
+                    .then(response => response.json())
+                    .then(dataFacturas => {
+                        const numberOfFacturas = dataFacturas.data.length; // Contar facturas
+                        facturasCount.textContent = `${numberOfFacturas} facturas encontradas`; // Actualizar texto
+
+                        // Limpiar el contenido anterior
+                        facturaList.innerHTML = '';
+
+                        // Iterar sobre la lista de facturas de la API
+                        dataFacturas.data.forEach(factura => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${factura.id}</td>
+                                <td>${factura.cedula}</td>
+                                <td>${factura.nombre_paciente}</td>
+                                <td>${factura.nombre_hospital}</td>
+                                <td>${factura.monto_total.toFixed(2)}</td>
+                                <td>${new Date(factura.fecha).toLocaleDateString()}</td>
+                                <td>${factura.motivo}</td>
+                                <td><span class="status ${factura.estado_Pago}">${factura.estado_Pago}</span></td>
+                            `;
+                            facturaList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching factura data:', error);
+                        facturasCount.textContent = 'Error al cargar facturas'; // Mensaje de error
+                    });
+            }
+
+            // Función para cargar pacientes
+            function loadPatients() {
+                fetch(apiUrlPacientes)
+                    .then(response => response.json())
+                    .then(dataPacientes => {
+                        const numberOfPatients = dataPacientes.data.length; // Contar pacientes
+                        patientsCount.textContent = `${numberOfPatients} available patients`; // Actualizar texto
+
+                        // Limpiar el contenido anterior
+                        patientList.innerHTML = '';
+
+                        // Iterar sobre la lista de pacientes de la API
+                        dataPacientes.data.forEach(paciente => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${paciente.Cedula}</td>
+                                <td>${paciente.Nombre}</td>
+                                <td>${paciente.Apellido}</td>
+                                <td>${paciente.Genero}</td>
+                                <td>${new Date(paciente.Fecha_nacimiento).toLocaleDateString()}</td>
+                                <td>${paciente.Edad}</td>
+                                <td>${paciente.Estado}</td>
+                                <td>${paciente.Telefono || 'N/A'}</td>
+                                <td>${paciente.Celular || 'N/A'}</td>
+                                <td>${paciente.Correo_Electronico || 'N/A'}</td>
+                            `;
+                            patientList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching patient data:', error);
+                        patientsCount.textContent = 'Error al cargar pacientes'; // Mensaje de error
+                    });
+            }
+
+            // Manejador de clic para la pestaña "Doctor"
+            doctorsTab.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                doctorsTab.classList.add('active');
+                poblacionTab.classList.remove('active');
+                doctorsSection.style.display = 'block'; // Mostrar la sección de doctores
+                patientsSection.style.display = 'none'; // Ocultar la sección de pacientes
+                loadDoctors(); // Cargar doctores
+            });
+
+            // Manejador de clic para la pestaña "Población"
+            poblacionTab.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto
+                poblacionTab.classList.add('active');
+                doctorsTab.classList.remove('active');
+                patientsSection.style.display = 'block'; // Mostrar la sección de pacientes
+                doctorsSection.style.display = 'none'; // Ocultar la sección de doctores
+                loadPatients(); // Cargar pacientes
+            });
+
+            // Manejador de clic para el enlace "Centro"
+            centroLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir comportamiento por defecto
+                window.location.href = 'centro'; // Redirigir a centro.html
+            });
+
+            // Cargar los doctores al cargar la página
+            loadFacturas();
+        });
+    </script>
+</body>
+</html>
