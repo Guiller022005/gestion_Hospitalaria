@@ -12,7 +12,7 @@
             <nav class="main-nav">
                 <img src="../storage/img/plus.png" alt="Logo" class="logo">
                 <ul>
-                    <li><a href="#" id="especialistas-link">Especialistas</a></li>
+                    <li><a href="/hospital" id="especialistas-link">Especialistas</a></li>
                     <li><a href="#" class="active">Centro</a></li>
                     <li><a href="#">Facturas</a></li>
                 </ul>
@@ -54,11 +54,11 @@
                 <thead>
                     <tr>
                         <th>Nit</th>
-                        <th>Nombre</th>
+                        <th>Nombre del Hospital</th>
                         <th>Dirección</th>
                         <th>Teléfono</th>
                         <th>Celular</th>
-                        <th>Correo</th>
+                        <th>Correo Electrónico</th>
                     </tr>
                 </thead>
                 <tbody id="hospital-list">
@@ -82,11 +82,11 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Doctor</th>
+                        <th>Nombre del Personal</th>
                         <th>Estado</th>
-                        <th>Hospital ID</th>
+                        <th>ID del Hospital</th>
                         <th>Hospital</th>
-                        <th>Direccion</th>
+                        <th>Dirección</th>
                     </tr>
                 </thead>
                 <tbody id="personal-list">
@@ -94,23 +94,56 @@
                 </tbody>
             </table>
         </section>
+
+        <section class="content" id="notices-section" style="display: none;">
+            <div class="content-header">
+                <div>
+                    <h1>Lista de Avisos</h1>
+                    <p id="noticesCount">Cargando avisos...</p>
+                </div>
+                <a href="/Add_Aviso" class="add-doctor">
+                    <img src="../storage/img/add_User.png" alt="Add aviso icon">
+                    Añadir nuevo aviso
+                </a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Aviso</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Hospital</th>
+                    </tr>
+                </thead>
+                <tbody id="notices-list">
+                    <!-- Los avisos serán cargados aquí dinámicamente -->
+                </tbody>
+            </table>
+        </section>
     </main>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // URL de la API
             const apiUrlHospitales = 'http://localhost:3000/hospital/v1/todos';
-            const apiUrlPersonal = 'http://localhost:3000/personal/v1/'; // Cambiado para ajustarse a tu API
+            const apiUrlPersonal = 'http://localhost:3000/personal/v1/';
+            const apiUrlAvisos = 'http://localhost:3000/aviso/v1/todos'; // URL de la API para avisos
 
             // Obtener elementos del DOM
             const hospitalsCount = document.getElementById('hospitalsCount');
             const personalCount = document.getElementById('personalCount');
+            const noticesCount = document.getElementById('noticesCount');
             const hospitalList = document.getElementById('hospital-list');
             const personalList = document.getElementById('personal-list');
+            const noticesList = document.getElementById('notices-list');
             const hospitalsTab = document.getElementById('hospitals-tab');
             const personalTab = document.getElementById('personal-tab');
+            const noticesTab = document.getElementById('notices-tab'); // Añadir variable para la pestaña de avisos
             const hospitalsSection = document.getElementById('hospitals-section');
             const personalSection = document.getElementById('personal-section');
-            const especialistasLink = document.getElementById('especialistas-link'); // Enlace de Especialistas
+            const noticesSection = document.getElementById('notices-section'); // Añadir sección para avisos
+            const especialistasLink = document.getElementById('especialistas-link');
 
             // Función para cargar hospitales
             function loadHospitals() {
@@ -158,8 +191,8 @@
                         dataPersonal.data.forEach(personal => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <td>${personal.DoctorID}</td> <!-- Ajusta esto según el nombre real en tu API -->
-                                <td>${personal.Doctor}</td>    <!-- Ajusta esto según el nombre real en tu API -->
+                                <td>${personal.DoctorID}</td> 
+                                <td>${personal.Doctor}</td>    
                                 <td>${personal.Estado}</td>
                                 <td>${personal.HospitalID}</td>
                                 <td>${personal.Hospital}</td>
@@ -174,13 +207,45 @@
                     });
             }
 
+            // Función para cargar avisos
+            function loadNotices() {
+                fetch(apiUrlAvisos)
+                    .then(response => response.json())
+                    .then(dataAvisos => {
+                        const numberOfNotices = dataAvisos.data.length; // Contar avisos
+                        noticesCount.textContent = `${numberOfNotices} avisos disponibles`; // Actualizar texto
+
+                        // Limpiar el contenido anterior
+                        noticesList.innerHTML = '';
+
+                        // Iterar sobre la lista de avisos de la API
+                        dataAvisos.data.forEach(aviso => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${aviso.id}</td>
+                                <td>${aviso.aviso_nombre}</td>
+                                <td>${aviso.descripcion}</td>
+                                <td>${new Date(aviso.fecha).toLocaleString()}</td>
+                                <td>${aviso.hospital_nombre}</td>
+                            `;
+                            noticesList.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching notice data:', error);
+                        noticesCount.textContent = 'Error al cargar avisos'; // Mensaje de error
+                    });
+            }
+
             // Manejador de clic para la pestaña "Hospitales"
             hospitalsTab.addEventListener('click', function(e) {
                 e.preventDefault(); // Prevenir el comportamiento por defecto
                 hospitalsTab.classList.add('active');
                 personalTab.classList.remove('active');
+                noticesTab.classList.remove('active'); // Desactivar la pestaña de avisos
                 hospitalsSection.style.display = 'block'; // Mostrar la sección de hospitales
                 personalSection.style.display = 'none'; // Ocultar la sección de personal
+                noticesSection.style.display = 'none'; // Ocultar la sección de avisos
                 loadHospitals(); // Cargar hospitales
             });
 
@@ -189,19 +254,28 @@
                 e.preventDefault(); // Prevenir el comportamiento por defecto
                 personalTab.classList.add('active');
                 hospitalsTab.classList.remove('active');
+                noticesTab.classList.remove('active'); // Desactivar la pestaña de avisos
                 personalSection.style.display = 'block'; // Mostrar la sección de personal
                 hospitalsSection.style.display = 'none'; // Ocultar la sección de hospitales
+                noticesSection.style.display = 'none'; // Ocultar la sección de avisos
                 loadPersonal(); // Cargar personal
             });
 
-            // Manejador de clic para el enlace "Especialistas"
-            especialistasLink.addEventListener('click', function(e) {
+            // Manejador de clic para la pestaña "Avisos"
+            noticesTab.addEventListener('click', function(e) {
                 e.preventDefault(); // Prevenir el comportamiento por defecto
-                window.location.href = 'hospital'; // Redirigir a index.html
+                noticesTab.classList.add('active');
+                hospitalsTab.classList.remove('active');
+                personalTab.classList.remove('active');
+                noticesSection.style.display = 'block'; // Mostrar la sección de avisos
+                hospitalsSection.style.display = 'none'; // Ocultar la sección de hospitales
+                personalSection.style.display = 'none'; // Ocultar la sección de personal
+                loadNotices(); // Cargar avisos
             });
 
-            // Cargar hospitales por defecto al inicio
+            // Inicializar la sección de hospitales
             loadHospitals();
+            hospitalsTab.click(); // Simula el clic en la pestaña de hospitales al cargar la página
         });
     </script>
 </body>
