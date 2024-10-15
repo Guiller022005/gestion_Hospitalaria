@@ -20,20 +20,24 @@
   "message": "list of Doctors",
   "data": [
     {
-      "id": 1,
-      "nombre_completo": "Dr. José Martínez",
-      "genero": "Masculino",
-      "especialidad_fk": 1,
-      "fecha_nacimiento": "1975-04-12T05:00:00.000Z",
-      "estado": "Activo"
+      "Doctor": "Dr. Carlos Pérez",
+      "Genero": "Masculino",
+      "Fecha_Nacimiento": "1982-06-11T05:00:00.000Z",
+      "Estado": "Activo",
+      "Especialidad": "Ginecología",
+      "Telefono": "555-8010",
+      "Celular": "313-9001",
+      "Correo_Electronico": "dr.carlos.perez@mail.com"
     },
     {
-      "id": 2,
-      "nombre_completo": "Dra. Laura Gutiérrez",
-      "genero": "Femenino",
-      "especialidad_fk": 2,
-      "fecha_nacimiento": "1980-09-25T05:00:00.000Z",
-      "estado": "Suspendido"
+      "Doctor": "Dr. José Martínez",
+      "Genero": "Masculino",
+      "Fecha_Nacimiento": "1975-04-12T05:00:00.000Z",
+      "Estado": "Activo",
+      "Especialidad": "Cardiología",
+      "Telefono": "555-5001",
+      "Celular": "314-8921",
+      "Correo_Electronico": "dr.josemartínez@mail.com"
     },
 	....
 	]
@@ -132,11 +136,13 @@ body:
 
 ```json
 {
-	"nombre": "Pepito perez",
-	"genero": "Masculino", /No hay una lista de generos
-    "especialidad": 5, /Seleccione una especialidad en la base de datos
-	"fecha_nacimiento": "1998-02-20",
-	"estado": "Activo", /"Activo", "Suspendido", "Vacaciones", "Incapacitado", "Inactivo"
+    "nombre": "Pepito Pérez",
+    "genero": "Masculino",
+    "especialidad": 5,
+    "fecha_nacimiento": "1998-02-20",
+    "estado": "Activo",
+    "tipo_contacto": "Teléfono",
+    "contacto": "+123456789"
 }
 ```
 
@@ -149,15 +155,26 @@ body:
 ```json
 {
   "status": 200,
-  "message": "El usuario Pepito perez fue guardado exitosamente",
+  "message": "El usuario Pepito Pérez fue guardado exitosamente junto con su contacto",
   "data": {
-    "fieldCount": 0,
-    "affectedRows": 1,
-    "insertId": 15,
-    "info": "",
-    "serverStatus": 2,
-    "warningStatus": 0,
-    "changedRows": 0
+    "doctor": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 17,
+      "info": "",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "contacto": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    }
   }
 }
 ```
@@ -966,22 +983,28 @@ body:
   "message": "Lista de Pacientes",
   "data": [
     {
-      "cedula": 1001,
-      "nombre": "Juan",
-      "apellido": "Pérez",
-      "genero": "Masculino",
-      "fecha_nacimiento": "1980-05-14T05:00:00.000Z",
-      "edad": 44,
-      "estado": "Activo"
+      "Cedula": 1001,
+      "Nombre": "Juan",
+      "Apellido": "Pérez",
+      "Genero": "Masculino",
+      "Fecha_nacimiento": "1980-05-14T05:00:00.000Z",
+      "Edad": 44,
+      "Estado": "Activo",
+      "Telefono": "555-1234",
+      "Celular": "312-8735",
+      "Correo_Electronico": "juanPerez@gmail.com"
     },
     {
-      "cedula": 1002,
-      "nombre": "Ana",
-      "apellido": "García",
-      "genero": "Femenino",
-      "fecha_nacimiento": "1992-09-30T04:00:00.000Z",
-      "edad": 32,
-      "estado": "Inactivo"
+      "Cedula": 1002,
+      "Nombre": "Ana",
+      "Apellido": "García",
+      "Genero": "Femenino",
+      "Fecha_nacimiento": "1992-09-30T04:00:00.000Z",
+      "Edad": 32,
+      "Estado": "Inactivo",
+      "Telefono": "555-7897",
+      "Celular": "312-5678",
+      "Correo_Electronico": "anaGarcia@gmail.com"
     },
 	....
 	]

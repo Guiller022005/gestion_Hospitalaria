@@ -5,6 +5,7 @@ const pacienteRouter = require('./api/router/pacienteRouter');
 const hospitalRouter = require('./api/router/hospitalRouter');
 const cuentaRouter = require('./api/router/cuentaRouter');
 const avisoRouter = require('./api/router/avisoRouter');
+const especialidadRouter = require('./api/router/especialidadRouter');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/paciente", pacienteRouter);
 app.use("/hospital", hospitalRouter);
 app.use("/cuenta", cuentaRouter);
 app.use("/aviso", avisoRouter);
+app.use("/especialidad", especialidadRouter);
 
 app.get('/hospital', (req, res) => {
     res.sendFile(join(__dirname, 'client', 'index.html'));
