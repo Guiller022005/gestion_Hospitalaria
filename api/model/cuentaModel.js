@@ -7,13 +7,17 @@ class Cuenta extends Conexion{
         try {
             let driver = await this.conexion;
             const [results] = await driver.data.query(
-                'select * from cuenta'
+                `SELECT c.id, p.cedula, p.nombre AS nombre_paciente, h.nombre AS nombre_hospital, 
+                        c.monto_total, c.fecha, c.motivo, c.estado_Pago
+                 FROM cuenta c
+                 JOIN paciente p ON c.paciente_fk = p.cedula
+                 JOIN hospital h ON c.hospital_fk = h.nit`
             );
-            return {status: 200, message: "lista de cuentas", data: results};
+            return { status: 200, message: "Lista de cuentas", data: results };
         } catch (error) {
-            throw new Error(JSON.stringify({ status: 500, message: "Ocurrio un error al obtener todos las cuentas", data: error}))
+            throw new Error(JSON.stringify({ status: 500, message: "Ocurrió un error al obtener las cuentas", data: error }));
         }
-    }
+    }    
     async informacionCuenta(id) {
         try {
             let driver = await this.conexion;
