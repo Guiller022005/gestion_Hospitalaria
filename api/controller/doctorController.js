@@ -25,28 +25,24 @@ exports.obtenerUnDoctorPorId = async(req, res) => {
         if(err.status == 500) return res.status(err.status).json(err);
     }
 }
-exports.guardarDoctor = async(req, res) => {
+exports.guardarDoctor = async (req, res) => {
     try {
         let doctor = new Doctor();
-        let resultado = await doctor.guardar(req.body);
-        if(resultado.status == 200) return res.status(resultado.status).json(resultado);
+        // Asegúrate de que req.body incluya los campos necesarios para guardar el doctor y el contacto
+        let resultado = await doctor.guardarDoctorYContacto(req.body);
+        
+        if (resultado.status === 200) {
+            return res.status(resultado.status).json(resultado);
+        }
     } catch (error) {
         console.log(error);
         let err = JSON.parse(error.message);
-        if(err.status == 500) return res.status(err.status).json(err);
+        if (err.status === 500) {
+            return res.status(err.status).json(err);
+        }
     }
-}
-exports.guardarContacto = async(req, res) => {
-    try {
-        let doctor = new Doctor();
-        let resultado = await doctor.guardarContactoDoctor(req.body);
-        if(resultado.status == 200) return res.status(resultado.status).json(resultado);
-    } catch (error) {
-        console.log(error);
-        let err = JSON.parse(error.message);
-        if(err.status == 500) return res.status(err.status).json(err);
-    }
-}
+};
+
 exports.eliminarDoctor = async(req, res) => {
     try {
         let doctor = new Doctor();
