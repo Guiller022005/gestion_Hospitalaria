@@ -30,6 +30,10 @@ app.get('/Add_Doctor', (req, res) => {
     res.sendFile(join(__dirname, 'client', 'views', 'add_Doctor.html'));
 });
 
+app.get('/centro', (req, res) => {
+    res.sendFile(join(__dirname, 'client', 'views', 'centro.html'));
+});
+
 // Capturamos rutas no encontradas (404)
 app.use((req, res) => {
     res.status(404).json({ message: "El API que deseas solicitar no está disponible" });
