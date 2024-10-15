@@ -1,5 +1,15 @@
 [TOC]
 
+
+
+# Hospital campus
+
+## Instalacion
+
+-- npm install
+
+--- para ejecutar el sistema npm run dev
+
 # Doctor
 
 ## Obtener todos los doctores
@@ -61,6 +71,60 @@
     "sqlMessage": "Table 'hospital.docto' doesn't exist"
   }
 }
+```
+
+
+
+------
+
+
+
+## Obtener todos las especialidades
+
+**Method** : `GET`
+
+**URL** : `http://localhost:3000/especialidad/v1/`
+
+**Auth required** : `False`
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```json
+{
+  "status": 200,
+  "message": "lista de especialidades",
+  "data": [
+    {
+      "id": 1,
+      "nombre": "Cardiología"
+    },
+    {
+      "id": 2,
+      "nombre": "Pediatría"
+    },
+	....
+	]
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q la tabla no existe en la base de datos.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrio un error al obtener todos las especialidades",
+  "data": {
+    "message": "Table 'hospital.espeialidad' doesn't exist",
+    "code": "ER_NO_SUCH_TABLE",
+    "errno": 1146,
+    "sql": "select * from espeialidad;",
+    "sqlState": "42S02",
+    "sqlMessage": "Table 'hospital.espeialidad' doesn't exist"
+  }
 ```
 
 
@@ -789,6 +853,125 @@ body:
 
 ------
 
+
+## Obtener todos los personales
+
+**Method** : `GET`
+
+**URL** : `http://localhost:3000/personal/v1/`
+
+**Auth required** : `False`
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```
+{
+  "status": 200,
+  "message": "lista del Personal",
+  "data": [
+    {
+      "DoctorID": 1,
+      "Doctor": "Dr. José Martínez",
+      "Estado": "Activo",
+      "HospitalID": 9001,
+      "Hospital": "Hospital Central",
+      "Direccion": "Calle 123 #45-67, Ciudad"
+    },
+    {
+      "DoctorID": 2,
+      "Doctor": "Dra. Laura Gutiérrez",
+      "Estado": "Suspendido",
+      "HospitalID": 9002,
+      "Hospital": "Clínica San Rafael",
+      "Direccion": "Av. Principal #22-34, Ciudad"
+    },
+	....
+	]
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q la tabla no existe en la base de datos.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrió un error al obtener todos los personales",
+  "data": {
+    "message": "Table 'hospital.personl' doesn't exist",
+    "code": "ER_NO_SUCH_TABLE",
+    "errno": 1146,
+    "sql": "SELECT \n                d.id AS DoctorID,  \n                d.nombre_completo AS Doctor,\n                d.estado AS Estado,\n                h.nit AS HospitalID,\n                h.nombre AS Hospital,\n                h.direccion AS Direccion\n            FROM \n                personl p\n            JOIN \n                doctor d ON p.doctor_fk = d.id\n            JOIN \n                hospital h ON p.hospital_fk = h.nit\n            ORDER BY \n                d.id;",
+    "sqlState": "42S02",
+    "sqlMessage": "Table 'hospital.personl' doesn't exist"
+  }
+}
+```
+
+
+
+------
+
+## Obtener todos las poblaciones
+
+**Method** : `GET`
+
+**URL** : `http://localhost:3000/poblacion/v1/`
+
+**Auth required** : `False`
+
+### Success Responses
+
+**Code** : `200 OK`
+
+```
+{
+  "status": 200,
+  "message": "Lista de la Población",
+  "data": [
+    {
+      "DoctorID": 1,
+      "Doctor": "Dr. José Martínez",
+      "PacienteID": 1001,
+      "PacienteNombre": "Juan Pérez"
+    },
+    {
+      "DoctorID": 2,
+      "Doctor": "Dra. Laura Gutiérrez",
+      "PacienteID": 1002,
+      "PacienteNombre": "Ana García"
+    },
+   
+	....
+	]
+}
+```
+
+**Code** : `500 Internal Server Error`
+
+**Nota:** Los errores pueden ocurrir si el backend realiza incorrectamente una consulta, lo que puede provocar que la informacion de la datos varie, en este ejemplo el error ocurre por q la tabla no existe en la base de datos.
+
+```json
+{
+  "status": 500,
+  "message": "Ocurrió un error al obtener todos los personales",
+  "data": {
+    "message": "Table 'hospital.personl' doesn't exist",
+    "code": "ER_NO_SUCH_TABLE",
+    "errno": 1146,
+    "sql": "SELECT \n                d.id AS DoctorID,  \n                d.nombre_completo AS Doctor,\n                d.estado AS Estado,\n                h.nit AS HospitalID,\n                h.nombre AS Hospital,\n                h.direccion AS Direccion\n            FROM \n                personl p\n            JOIN \n                doctor d ON p.doctor_fk = d.id\n            JOIN \n                hospital h ON p.hospital_fk = h.nit\n            ORDER BY \n                d.id;",
+    "sqlState": "42S02",
+    "sqlMessage": "Table 'hospital.personl' doesn't exist"
+  }
+}
+```
+
+
+
+------
 
 
 ## Obtener un Hospital por nit
