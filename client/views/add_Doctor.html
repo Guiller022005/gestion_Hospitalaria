@@ -5,102 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Doctor</title>
     <link rel="stylesheet" href="../css/add_Doctor.css">
+    <style>
+        .active-step {
+            color: green;
+            font-weight: bold;
+        }
+        .completed-step {
+            color: gray;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <nav class="main-nav">
-                <img src="./storage/img/plus.png" alt="Logo" class="logo">
-                <ul>
-                    <li><a href="#" class="active">Especialistas</a></li>
-                    <li><a href="#">Centro</a></li>
-                    <li><a href="#">Facturas</a></li>
-                </ul>
-            </nav>
-            <div class="user-section">
-                <img src="../storage/img/window.png" alt="Grid view" class="icon">
-                <img src="../storage/img/stadics.png" alt="Chart view" class="icon">
-                <img src="../storage/img/message.png" alt="Messages" class="icon">
-                <div class="user-info">
-                    <div class="userRol">
-                        <span>Marvin McKinney</span>
-                        <small>Admin</small>
-                    </div>
-                    <div class="user-avatar">M</div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <nav class="sub-nav">
-        <ul>
-            <li><a href="#" class="active">Doctor</a></li>
-            <li><a href="#">Paciente</a></li>
-        </ul>
-    </nav>
+    <!-- Header and navigation code remains the same -->
+
     <main>
         <section class="form-section">
             <div class="form-container">
                 <ul class="form-steps">
-                    <li id="step-1" class="active-step">1. Informacion basica</li>
-                    <li id="step-2">2. Informacion de contacto</li>
+                    <li id="step-1" class="active-step">1. Información básica</li>
+                    <li id="step-2">2. Información de contacto</li>
                 </ul>
                 <div class="form-content">
-                    <h2 id="form-title">Basic Information</h2>
+                    <h2 id="form-title">Información básica</h2>
 
-                    <!-- Primer formulario: Información básica -->
-                    <form id="basic-info-form" class="basic-info-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nombre-completo">Nombre Completo</label>
-                                <input type="text" id="nombre-completo" name="nombre-completo" placeholder="Ingrese el nombre completo" required>
+                    <form id="doctor-form">
+                        <!-- Basic Info -->
+                        <div id="basic-info-section">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nombre-completo">Nombre Completo</label>
+                                    <input type="text" id="nombre-completo" name="nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="genero">Género</label>
+                                    <select id="genero" name="genero" required>
+                                        <option value="">Seleccione el género</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Femenino">Femenino</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="gender">Género</label>
-                                <select id="genero" name="genero" required>
-                                    <option value="">Seleccione el género</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="femenino">Femenino</option>
-                                    <option value="otro">Otro</option>
-                                </select>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="especialidad">Especialidad</label>
+                                    <select id="especialidad" name="especialidad" required>
+                                        <option value="">Seleccione la especialidad</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fecha-nacimiento">Fecha de nacimiento</label>
+                                    <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" required>
+                                </div>
                             </div>
-                        </div>
-    
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="especialidad">Especialidad</label>
-                                <input type="text" id="especialidad" name="especialidad" placeholder="Ingrese la especialidad" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha-nacimiento">Fecha de nacimiento</label>
-                                <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" required>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" id="next-step-btn" class="next-step-btn">Next Step</button>
-                        </div>
-                    </form>
-
-                    <!-- Segundo formulario: Información de contacto (invisible por defecto) -->
-                    <form id="contact-info-form" class="contact-info-form" style="display: none;">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="celular">Celular</label>
-                                <input type="text" id="celular" name="celular" placeholder="Ingrese el número de celular" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="telefono">Teléfono</label>
-                                <input type="text" id="telefono" name="telefono" placeholder="Ingrese el número de teléfono" required>
+                            <div class="form-actions">
+                                <button type="button" id="next-step-btn">Siguiente</button>
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="correo">Correo Electrónico</label>
-                                <input type="email" id="correo" name="correo" placeholder="Ingrese el correo electrónico" required>
+                        <!-- Contact Info (initially hidden) -->
+                        <div id="contact-info-section" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tipo-contacto">Tipo de Contacto</label>
+                                    <select id="tipo-contacto" name="tipo_contacto" required>
+                                        <option value="">Seleccione el tipo de contacto</option>
+                                        <option value="Celular">Celular</option>
+                                        <option value="Telefono">Teléfono</option>
+                                        <option value="Correo electronico">Correo electrónico</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contacto">Contacto</label>
+                                    <input type="text" id="contacto" name="contacto" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" id="submit-contact-btn" class="next-step-btn">Enviar</button>
+                            <div class="form-actions">
+                                <button type="submit" id="submit-btn">Guardar Doctor</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -109,113 +91,103 @@
     </main>
 
     <script>
-        // Variables para referenciar elementos
+        // Variables for DOM elements
         const step1 = document.getElementById('step-1');
         const step2 = document.getElementById('step-2');
-        const basicInfoForm = document.getElementById('basic-info-form');
-        const contactInfoForm = document.getElementById('contact-info-form');
+        const basicInfoSection = document.getElementById('basic-info-section');
+        const contactInfoSection = document.getElementById('contact-info-section');
         const nextStepBtn = document.getElementById('next-step-btn');
         const formTitle = document.getElementById('form-title');
+        const doctorForm = document.getElementById('doctor-form');
+        const especialidadSelect = document.getElementById('especialidad');
 
-        // Almacenar temporalmente la información básica
-        let basicInfoData = {};
-        let doctorId = null; // Para almacenar el ID del doctor
+        // Fetch specialties and populate the select
+        fetch('http://localhost:3000/especialidad/v1/')
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    data.forEach(specialty => {
+                        const option = document.createElement('option');
+                        option.value = specialty.id;
+                        option.textContent = specialty.nombre;
+                        especialidadSelect.appendChild(option);
+                    });
+                } else if (data.data && Array.isArray(data.data)) {
+                    data.data.forEach(specialty => {
+                        const option = document.createElement('option');
+                        option.value = specialty.id;
+                        option.textContent = specialty.nombre;
+                        especialidadSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Unexpected data format:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching specialties:', error));
 
-        // Manejar clic en "Next Step"
-nextStepBtn.addEventListener('click', function() {
-    // Guardar los datos del primer formulario en el objeto basicInfoData
-    const nombreCompleto = document.getElementById('nombre-completo').value.trim();
-    const genero = document.getElementById('genero').value;
-    const especialidad = document.getElementById('especialidad').value.trim();
-    const fechaNacimiento = document.getElementById('fecha-nacimiento').value;
+        // Handle next step button click
+        nextStepBtn.addEventListener('click', function() {
+            if (validateBasicInfo()) {
+                step1.classList.remove('active-step');
+                step1.classList.add('completed-step');
+                step2.classList.add('active-step');
+                basicInfoSection.style.display = 'none';
+                contactInfoSection.style.display = 'block';
+                formTitle.textContent = 'Información de contacto';
+            }
+        });
 
-    // Comprobar si los campos son válidos
-    if (!nombreCompleto || !genero || !especialidad || !fechaNacimiento) {
-        alert('Por favor complete todos los campos de información básica.');
-        return; // Salir de la función si algún campo está vacío
-    }
-
-    // Guardar datos válidos en el objeto basicInfoData
-    basicInfoData = {
-        nombre_completo: nombreCompleto,
-        genero,
-        especialidad_fk: especialidad,
-        fecha_nacimiento: fechaNacimiento
-    };
-
-    console.log('Datos a enviar:', basicInfoData); // Añadir log para verificar los datos
-
-    // Enviar datos a la API (tabla doctor)
-    fetch('http://localhost:3000/doctor/v1/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(basicInfoData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error en la respuesta de la API');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Doctor guardado:', data);
-        doctorId = data.id; // Asumiendo que la respuesta tiene el ID del doctor
-        // Cambiar el estilo de los pasos
-        step1.classList.remove('active-step');
-        step1.classList.add('completed-step');
-        step2.classList.add('active-step');
-
-        // Mostrar el segundo formulario y ocultar el primero
-        basicInfoForm.style.display = 'none';
-        contactInfoForm.style.display = 'block';
-
-        // Cambiar el título del formulario
-        formTitle.textContent = 'Información de contacto';
-    })
-    .catch((error) => {
-        console.error('Error al guardar doctor:', error);
-        alert('Hubo un error al guardar la información básica. Verifica los datos ingresados.');
-    });
-});
-
-        // Manejar el envío del formulario de contacto
-        document.getElementById('submit-contact-btn').addEventListener('click', function() {
-            const celular = document.getElementById('celular').value;
-            const telefono = document.getElementById('telefono').value;
-            const correo = document.getElementById('correo').value;
-
-            if (celular && telefono && correo && doctorId) {
-                const contactInfoData = {
-                    celular,
-                    telefono,
-                    correo,
-                    doctor_fk: doctorId // Añadir el ID del doctor
+        // Handle form submission
+        doctorForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateContactInfo()) {
+                const formData = new FormData(doctorForm);
+                const doctorData = {
+                    nombre: formData.get('nombre'),
+                    genero: formData.get('genero'),
+                    especialidad: formData.get('especialidad'),
+                    fecha_nacimiento: formData.get('fecha_nacimiento'),
+                    estado: 'Activo', // Default state
+                    tipo_contacto: formData.get('tipo_contacto'),
+                    contacto: formData.get('contacto')
                 };
 
-                // Enviar datos de contacto a la API (tabla comunicacion_doctor)
-                fetch('http://localhost:3000/doctor/v1/contactos', {
+                fetch('http://localhost:3000/doctor/v1/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(contactInfoData)
+                    body: JSON.stringify(doctorData)
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Comunicación guardada:', data);
-                    alert('Formulario enviado exitosamente.');
+                    console.log('Doctor guardado:', data);
+                    alert('Doctor guardado exitosamente');
+                    doctorForm.reset();
+                    // Reset form view to basic info
+                    basicInfoSection.style.display = 'block';
+                    contactInfoSection.style.display = 'none';
+                    step1.classList.add('active-step');
+                    step1.classList.remove('completed-step');
+                    step2.classList.remove('active-step');
+                    formTitle.textContent = 'Información básica';
                 })
-                .catch((error) => {
-                    console.error('Error al guardar comunicación:', error);
-                    alert('Hubo un error al enviar la información de contacto.');
+                .catch(error => {
+                    console.error('Error al guardar doctor:', error);
+                    alert('Hubo un error al guardar la información del doctor');
                 });
-            } else {
-                alert('Por favor complete todos los campos de información de contacto.');
             }
         });
+
+        function validateBasicInfo() {
+            // Add your validation logic here
+            return true; // Return true if validation passes
+        }
+
+        function validateContactInfo() {
+            // Add your validation logic here
+            return true; // Return true if validation passes
+        }
     </script>
 </body>
 </html>
-

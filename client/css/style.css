@@ -135,7 +135,28 @@ main {
     display: flex;
     align-items: center;
     font-size: 0.875rem;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
 }
+
+.add-doctor:hover,
+.add-doctor:focus {
+    outline: none;
+    text-decoration: none;
+    box-shadow: 0 0 0 2px rgba(95, 141, 78, 0.5);
+}
+
+.add-doctor img {
+    margin-right: 0.5rem;
+    border: none;
+}
+
+/* Si el botón es un enlace (<a>), asegúrate de que no tenga estilos de enlace */
+a.add-doctor {
+    text-decoration: none;
+}
+
 
 table {
     width: 100%;
