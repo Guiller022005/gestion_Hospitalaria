@@ -7,7 +7,21 @@ class Hospital extends Conexion{
         try {
             let driver = await this.conexion;
             const [results] = await driver.data.query(
-                'select * from hospital'
+                `SELECT 
+                h.nit AS HospitalID,  
+                h.nombre AS Hospital,
+                h.direccion AS Direccion,
+                GROUP_CONCAT(CASE WHEN ch.tipo = 'Telefono' THEN ch.contacto END) AS Telefono,
+                GROUP_CONCAT(CASE WHEN ch.tipo = 'Celular' THEN ch.contacto END) AS Celular,
+                GROUP_CONCAT(CASE WHEN ch.tipo = 'Correo electronico' THEN ch.contacto END) AS Correo_Electronico
+            FROM 
+                hospital h
+            LEFT JOIN 
+                comunicacion_hospital ch ON h.nit = ch.hospital_fk
+            GROUP BY 
+                h.nit, h.nombre, h.direccion
+            ORDER BY 
+                h.nit;`
             );
             return {status: 200, message: "lista de Hospitales", data: results};
         } catch (error) {
