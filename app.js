@@ -1,3 +1,4 @@
+//Exportacion de routes
 const {join} = require("path");
 const express = require("express");
 const doctorRouter = require('./api/router/doctorRouter');

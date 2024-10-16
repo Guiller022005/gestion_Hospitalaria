@@ -1,3 +1,4 @@
+// version
 const express = require('express');
 const hospitalController = require('../controller/hospitalController')
 const hospital = express();

@@ -1,3 +1,4 @@
+/*controller */
 const { join } = require("path");
 const Poblacion = require('../model/poblacionModel')
 

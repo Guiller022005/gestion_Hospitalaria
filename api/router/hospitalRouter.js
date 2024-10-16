@@ -1,3 +1,4 @@
+// router
 const hospital = require('express').Router();
 const hospitalV1 = require('../version/hospitalV1');
 

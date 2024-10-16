@@ -1,3 +1,4 @@
+/*my data*/
 INSERT INTO paciente (cedula, nombre, apellido, genero, fecha_nacimiento, edad, estado) VALUES
 (1001,'Juan','Pérez','Masculino','1980-05-14',44,'Activo'),
 (1002,'Ana','García','Femenino','1992-09-30',32,'Inactivo'),

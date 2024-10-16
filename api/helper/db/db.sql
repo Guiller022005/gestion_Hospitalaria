@@ -1,3 +1,4 @@
+/* mis tablas*/
 CREATE SCHEMA hospital DEFAULT CHARACTER SET utf8;
 USE hospital;
 

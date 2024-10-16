@@ -1,3 +1,4 @@
+// version
 const express = require('express');
 const especialidadController = require('../controller/especialidadController');
 const especialidad = express();

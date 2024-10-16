@@ -1,3 +1,4 @@
+// conexion a database
 const mysql = require('mysql2/promise');
 class Conexion {
     constructor(){

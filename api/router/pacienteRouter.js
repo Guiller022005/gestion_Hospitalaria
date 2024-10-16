@@ -1,3 +1,4 @@
+// router
 const paciente = require('express').Router();
 const pacienteV1 = require('../version/pacienteV1');
 

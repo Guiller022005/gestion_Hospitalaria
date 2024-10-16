@@ -1,3 +1,4 @@
+// model
 const Conexion = require('../helper/conexion')
 class Doctor extends Conexion{
     constructor(){
