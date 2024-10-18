@@ -19,8 +19,8 @@ const botUserAgents = [
 ];
 
 exports.obtenerTodosLosPacientes = rateLimit({
-    windowMs: 0.30 * 60 * 1000, // 30 segundos
-    max: 3, // Limit each IP to 3 request per `window`
+    windowMs: 15 * 60 * 1000, // 30 segundos
+    max: 25, // Limit each IP to 3 request per `window`
     handler: (req, res, next) => {
         const userAgent = req.get('User-Agent');
         if (userAgent && botUserAgents.some(bot => new RegExp(bot, 'i').test(userAgent))) {
