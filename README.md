@@ -10,6 +10,12 @@
 
 --- para ejecutar el sistema npm run dev
 
+## Variables de entorno
+```json 
+EXPRESS_STATIC="/home/camper/gestion_Hospitalaria/client"
+EXPRESS_PORT=3000
+EXPRESS_HOST="localhost"
+```
 # Doctor
 
 ## Obtener todos los doctores
