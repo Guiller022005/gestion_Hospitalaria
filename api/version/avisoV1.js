@@ -8,6 +8,6 @@ const aviso = express();
 // aviso.get("/", avisoController.showAviso);
 aviso.get("/todos", limite.obtenerTodosLosAvisos,  avisoController.obtenerTodosLosAvisos);
 aviso.get("/:id", avisoController.obtenerUnAvisoPorId);
-aviso.post("/", express.json(), esquemas.formularioAviso,  avisoController.guardarAviso);
-aviso.delete("/:id", avisoController.eliminarAviso);
+aviso.post("/", limite.postAvisos, express.json(), esquemas.formularioAviso,  avisoController.guardarAviso);
+aviso.delete("/:id", limite.deleteAvisos, avisoController.eliminarAviso);
 module.exports = aviso;

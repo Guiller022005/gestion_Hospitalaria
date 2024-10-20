@@ -34,3 +34,39 @@ exports.obtenerTodosLasCuentas = rateLimit({
         })
     }
 })
+
+exports.postCuentas = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 45, // Limit each IP to 3 request per `window`
+    handler: (req, res, next) => {
+        const userAgent = req.get('User-Agent');
+        if (userAgent && botUserAgents.some(bot => new RegExp(bot, 'i').test(userAgent))) {
+            return res.status(403).json({
+                status: 403,
+                message: 'No se permite el acceso de bots.'
+            });
+        }
+        res.status(429).json({
+            status: 429,
+            message: 'Limite superado esperando el tiempo restante.'
+        })
+    }
+})
+
+exports.deleteCuentas = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutos
+    max: 10, // Limit each IP to 3 request per `window`
+    handler: (req, res, next) => {
+        const userAgent = req.get('User-Agent');
+        if (userAgent && botUserAgents.some(bot => new RegExp(bot, 'i').test(userAgent))) {
+            return res.status(403).json({
+                status: 403,
+                message: 'No se permite el acceso de bots.'
+            });
+        }
+        res.status(429).json({
+            status: 429,
+            message: 'Limite superado esperando el tiempo restante.'
+        })
+    }
+})

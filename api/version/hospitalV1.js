@@ -7,7 +7,7 @@ const hospital = express();
 hospital.get("/", hospitalController.showHospital);
 hospital.get("/todos", limite.obtenerTodosLosHospitales, hospitalController.obtenerTodosLosHospitales);
 hospital.get("/:id", hospitalController.obtenerUnHospitalPorId);
-hospital.post("/", express.json(), hospitalController.guardarHospital);
-hospital.delete("/:id", hospitalController.eliminarHospital);
+hospital.post("/", limite.postHospital, express.json(), hospitalController.guardarHospital);
+hospital.delete("/:id", limite.deleteHospital, hospitalController.eliminarHospital);
 
 module.exports = hospital;
